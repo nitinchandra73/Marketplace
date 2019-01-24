@@ -6,6 +6,6 @@ public class RequestMappings {
     public static final String BUYERS = "/buyers";
     public static final String BIDS = "/bids";
 
-    private RequestMappings() {
+    private RequestMappings() {sxsx
     }
 }
