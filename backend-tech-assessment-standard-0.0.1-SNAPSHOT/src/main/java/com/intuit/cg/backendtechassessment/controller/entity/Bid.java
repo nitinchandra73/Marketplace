@@ -8,13 +8,39 @@ public final class Bid {
 	@NotBlank
 	long employerId;
 	
-	long employeeId;
+	long bidderId;
 	@NotNull
 	String projectTitle; 
-	double maxBid;
+	double leastBidAmount;
 	@NotNull
-	double currentBid;
+	double currentBidAmount;
+	long projectId;
+	boolean bidLesserTillThresholdIfNotLeast;
 	
+	public boolean isBidLesserTillThresholdIfNotLeast() {
+		return bidLesserTillThresholdIfNotLeast;
+	}
+	public void setBidLesserTillThresholdIfNotLeast(boolean bidLesserTillThresholdIfNotLeast) {
+		this.bidLesserTillThresholdIfNotLeast = bidLesserTillThresholdIfNotLeast;
+	}
+	public double getLeastBidAmount() {
+		return leastBidAmount;
+	}
+	public void setLeastBidAmount(double maxBidAmount) {
+		this.leastBidAmount = maxBidAmount;
+	}
+	public double getCurrentBidAmount() {
+		return currentBidAmount;
+	}
+	public void setCurrentBidAmount(double currentBidAmount) {
+		this.currentBidAmount = currentBidAmount;
+	}
+	public long getProjectId() {
+		return projectId;
+	}
+	public void setProjectId(long projectId) {
+		this.projectId = projectId;
+	}
 	public long getBidId() {
 		return bidId;
 	}
@@ -27,29 +53,17 @@ public final class Bid {
 	public void setEmployerId(long employerId) {
 		this.employerId = employerId;
 	}
-	public long getEmployeeId() {
-		return employeeId;
+	public long getBidderId() {
+		return bidderId;
 	}
-	public void setEmployeeId(long employeeId) {
-		this.employeeId = employeeId;
+	public void setBidderId(long employeeId) {
+		this.bidderId = employeeId;
 	}
 	public String getProjectTitle() {
 		return projectTitle;
 	}
 	public void setProjectTitle(String projectTitle) {
 		this.projectTitle = projectTitle;
-	}
-	public double getMaxBid() {
-		return maxBid;
-	}
-	public void setMaxBid(double maxBid) {
-		this.maxBid = maxBid;
-	}
-	public double getCurrentBid() {
-		return currentBid;
-	}
-	public void setCurrentBid(double currentBid) {
-		this.currentBid = currentBid;
 	}
 	
 	

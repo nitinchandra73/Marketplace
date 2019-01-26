@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.intuit.cg.backendtechassessment.constants.MarketplaceConstants;
 import com.intuit.cg.backendtechassessment.controller.ProspectEmployeeController;
 import com.intuit.cg.backendtechassessment.controller.entity.Bid;
+import com.intuit.cg.backendtechassessment.exception.UserException;
 import com.intuit.cg.backendtechassessment.service.BidService;
 import com.intuit.cg.backendtechassessment.util.ControllerUtil;
 
@@ -30,7 +31,13 @@ public class ProspectEmployeeControllerImpl implements ProspectEmployeeControlle
 	@RequestMapping(value=NEW_BID_PATH, method=RequestMethod.POST)
 	public ResponseEntity<Object> newBid(@PathVariable(PROJECT_ID) String projectId, @PathVariable(BIDDER_ID)String bidderId,  @RequestBody Bid bid) {
 		// TODO Auto-generated method stub
-		Bid responseBid=bidservice.addBid(bid);
+		Bid responseBid=null;
+		try {
+			responseBid = bidservice.addBid(bid);
+		} catch (UserException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		
 		controllerUtil.isValid(bid);
 		LOGGER.error("hi nitin");
@@ -40,10 +47,10 @@ public class ProspectEmployeeControllerImpl implements ProspectEmployeeControlle
 	public ResponseEntity<Object> getBid(@PathVariable(PROJECT_ID) String projectId, @PathVariable(BIDDER_ID)String bidderId) {
 		Bid bid = new Bid();
 		bid.setBidId(0);
-		bid.setCurrentBid(0);
-		bid.setEmployeeId(0);
+		bid.setCurrentBidAmount(0);
+		bid.setBidderId(0);
 		bid.setEmployerId(0);
-		bid.setMaxBid(0);
+		bid.setLeastBidAmount(0);
 		bid.setProjectTitle("f");
 		return new ResponseEntity<Object>(bid,HttpStatus.OK);
 	}

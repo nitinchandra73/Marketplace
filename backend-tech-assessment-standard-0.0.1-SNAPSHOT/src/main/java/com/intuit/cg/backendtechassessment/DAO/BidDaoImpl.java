@@ -1,12 +1,71 @@
 package com.intuit.cg.backendtechassessment.DAO;
 
+import java.sql.Connection;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.util.List;
+
+import javax.persistence.EntityManager;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
+import javax.sql.DataSource;
+
+import org.hibernate.annotations.NamedNativeQueries;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import com.intuit.cg.backendtechassessment.controller.entity.Bid;
+import com.intuit.cg.backendtechassessment.dataaccess.entity.ProjectsTable;
+import com.intuit.cg.backendtechassessment.exception.ErrorCodes;
+import com.intuit.cg.backendtechassessment.exception.UserException;
 @Repository
 public class BidDaoImpl {
-	public boolean isBidValid(Bid bid) {
-		return false;
+	@Autowired
+    DataSource dataSource;
+	@Autowired
+	private EntityManager entityManager;
+	public boolean isBidValid(Bid bid) throws UserException {
+		long projectId; // check is valid listing
+		ProjectsTable projectsTable;
+		double currentBidAmount,leastBidAmount,currentBidLeastAmount;
+		projectId=bid.getProjectId();
+			projectsTable = getProjectById(projectId);
+			if(!projectsTable.getName().equals(bid.getProjectTitle())) {
+				throw new UserException("Project title doesnt match for the project Id specified",ErrorCodes.MISMATCH_PROJECT_ID_TO_PROJECT_TITLE);
+			}
+		
+		if(projectsTable.getEmployer().getId()!=bid.getEmployerId()) {
+			throw new UserException("Employer Id dosnt match for the project Id specified",ErrorCodes.MISSMATCH_EMPLOYER_ID_AND_PROJECT_ID);
+		}
+		
+		currentBidAmount=bid.getCurrentBidAmount();
+		currentBidLeastAmount=bid.getLeastBidAmount();
+		leastBidAmount=projectsTable.getLeastBid().getBidAmount();
+		if(leastBidAmount>0) {
+			if(currentBidAmount<leastBidAmount) {
+				return true;
+			}
+			else {
+				if(bid.isBidLesserTillThresholdIfNotLeast()) {
+					if((currentBidLeastAmount<(leastBidAmount-1))) {
+						bid.setCurrentBidAmount(leastBidAmount-1);
+						return true;
+					}
+					throw new UserException("current bid amount is not lesser than the least bid amount: "+leastBidAmount, ErrorCodes.BID_AMOUNT_NOT_LESS_THAN_LEAST);
+
+				}
+				else {
+					throw new UserException("current bid amount is not lesser than the least bid amount: "+leastBidAmount, ErrorCodes.BID_AMOUNT_NOT_LESS_THAN_LEAST);
+				}
+			}
+		}
+		else {
+			return true;
+		}
+		
+		
+		
+		
 	}
 	public boolean isNewBidder(Bid bid) {
 		return false;
@@ -24,5 +83,35 @@ public class BidDaoImpl {
 	}
 	public Bid placeBid(Bid bid) {
 		return null;
+	}
+	
+	ProjectsTable getProjectById(long projectId) throws UserException  {
+//		Connection connection = getNewConnection();
+//		Statement statment=connection.createStatement();
+		//statment.ex
+		List<ProjectsTable> projectTableList=entityManager.createNamedQuery("projectTable.SELECT_PROJECT_BY_ID", ProjectsTable.class).setParameter("id", projectId).getResultList();
+		if( projectTableList.size()==1){
+			return projectTableList.get(0);
+		}
+		throw new UserException("project doesnt exist for the give project id="+projectId,ErrorCodes.MISSING_PROJECT_FOR_ID);
+	}
+	Connection getNewConnection() throws SQLException{
+		try {
+			
+			return dataSource.getConnection();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			throw new SQLException("Unable to get new connection from database");
+		}
+	}
+	void closeConnection(Connection connection) throws SQLException{
+		try {
+			connection.close();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			throw new SQLException("Unable to close database connection");
+		}
 	}
 }
