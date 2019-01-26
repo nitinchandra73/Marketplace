@@ -17,12 +17,14 @@ import javax.persistence.Table;
 //@NamedQuery(query="", name = "")
 
 @NamedQueries({
-	@NamedQuery(name="LIST_ALL_EMPLOYERS", query="from EmployerTable")
+	@NamedQuery(name="EmployerTable.LIST_ALL_EMPLOYERS", query="from EmployerTable"),
+	@NamedQuery(name="EmployerTable.listEmployerByEin",query="select e from EmployerTable e where e.ein= :ein"),
+	//@NamedQuery(name="EmployerTable.insertNewEmployer",query="insert into EmployerTable e values e.name=:name e.ein= :ein ")
 	})
 public class EmployerTable {
 
 	String name;
-	
+	String ein;
 	@GeneratedValue(strategy=GenerationType.AUTO)
 	@Id
 	long id;
@@ -31,6 +33,12 @@ public class EmployerTable {
 	@OneToMany
 	List<ProjectsTable> projects;
 	
+	public String getEin() {
+		return ein;
+	}
+	public void setEin(String ein) {
+		this.ein = ein;
+	}
 	public List<ProjectsTable> getProjects() {
 		return projects;
 	}

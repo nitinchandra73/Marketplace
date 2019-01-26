@@ -28,7 +28,7 @@ public class ProspectEmployeeControllerImpl implements ProspectEmployeeControlle
 	BidService bidservice;
 	private static final Logger LOGGER = LoggerFactory.getLogger(ProspectEmployeeControllerImpl.class);
 	@Override
-	@RequestMapping(value=NEW_BID_PATH, method=RequestMethod.POST)
+	@RequestMapping(value=POST_BID_PATH, method=RequestMethod.POST)
 	public ResponseEntity<Object> newBid(@PathVariable(PROJECT_ID) String projectId, @PathVariable(BIDDER_ID)String bidderId,  @RequestBody Bid bid) {
 		// TODO Auto-generated method stub
 		Bid responseBid=null;
@@ -43,7 +43,7 @@ public class ProspectEmployeeControllerImpl implements ProspectEmployeeControlle
 		LOGGER.error("hi nitin");
 		return new ResponseEntity<Object>(responseBid,HttpStatus.OK);
 	}
-	@RequestMapping(value=NEW_BID_PATH, method=RequestMethod.GET)
+	@RequestMapping(value=POST_BID_PATH, method=RequestMethod.GET)
 	public ResponseEntity<Object> getBid(@PathVariable(PROJECT_ID) String projectId, @PathVariable(BIDDER_ID)String bidderId) {
 		Bid bid = new Bid();
 		bid.setBidId(0);
