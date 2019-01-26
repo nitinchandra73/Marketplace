@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import com.intuit.cg.backendtechassessment.DAO.BidDaoImpl;
 import com.intuit.cg.backendtechassessment.controller.entity.Bid;
 import com.intuit.cg.backendtechassessment.controllerImpl.ProspectEmployeeControllerImpl;
+import com.intuit.cg.backendtechassessment.exception.ErrorCodes;
 import com.intuit.cg.backendtechassessment.exception.UserException;
 import com.intuit.cg.backendtechassessment.service.BidService;
 @Service
@@ -18,11 +19,14 @@ public class BidServiceImpl implements BidService {
 	@Override
 	public Bid addBid(Bid bid) throws UserException {
 		
-		bidDao.isBidValid(bid);
-		bidDao.isBiddingActive();
-		if(!bidDao.isNewBidder(bid)) {
-			bidDao.bidderBidAlreadyExist(bid);
+		if(bidDao.isBidderExist(bid)) {
+			if(bidDao.bidderBidAlreadyExist(bid)) {
+				throw new UserException("Bid for Bidder exist", ErrorCodes.BID_FOR_BIDDER_EXIST);
+			}
 		}
+		bidDao.isBidValid(bid);
+	//	bidDao.isBiddingActive();
+		
 		//bidDao.isTheBidLeastCoated();
 		bidDao.placeBid(bid);
 		

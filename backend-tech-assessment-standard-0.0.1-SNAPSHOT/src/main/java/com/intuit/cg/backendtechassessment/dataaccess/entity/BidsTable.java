@@ -6,6 +6,11 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
+@NamedQueries({
+	@NamedQuery(name="bidsTable.getBidderIdForProjectId",query="select b from BidsTable b where bidder= :bidderId and project= :projectId")
+})
 @Entity
 public class BidsTable {
 	@Id
@@ -16,6 +21,14 @@ public class BidsTable {
 	public double maxBidAmout;
 	@ManyToOne
 	public ProjectsTable project;
+	@ManyToOne
+	public BidderTable bidder;
+	public BidderTable getBidder() {
+		return bidder;
+	}
+	public void setBidder(BidderTable bidder) {
+		this.bidder = bidder;
+	}
 	public long getId() {
 		return id;
 	}
