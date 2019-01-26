@@ -10,6 +10,6 @@ public class UserException extends Exception {
 		this.errorCode = errorCode;
 	}
 	public String toString(){
-	     return ("User exception: "+ exception+"; error code: "+exception) ;
+	     return ("User exception: "+ exception+"; error code: "+errorCode.getErrorCode()) ;
 	  }
 }

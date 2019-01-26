@@ -11,6 +11,8 @@ import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import com.intuit.cg.backendtechassessment.controller.entity.Employer;
+
 
 @Entity
 @Table(name="EmployerTable")
@@ -33,6 +35,10 @@ public class EmployerTable {
 	@OneToMany
 	List<ProjectsTable> projects;
 	
+	public EmployerTable(Employer employer) {
+		this.name=employer.getName();
+		this.ein=employer.getEin();
+	}
 	public String getEin() {
 		return ein;
 	}

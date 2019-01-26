@@ -23,12 +23,12 @@ public class EmployerRegistrationControllerImpl implements MarketplaceConstants{
 	EmployerService employerService;
 	@RequestMapping(path=POST_EMPLOYER_PATH,method=RequestMethod.POST)
 	public ResponseEntity<Object> addNewEmployer(@RequestBody Employer employer) {
-		
+		System.out.println("Nitin im in controller");
 			try {
 				employerService.addEmployer(employer);
 			} catch (UserException e) {
 				Status status = new Status();
-				status.setStatusMessage(e.getMessage());
+				status.setStatusMessage(e.toString());
 				return new ResponseEntity<Object>(status, HttpStatus.BAD_REQUEST);
 			}
 		

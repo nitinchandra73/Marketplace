@@ -18,7 +18,8 @@ public class EmployerServiceImpl implements EmployerService{
 	EmployerDaoImpl employerDao;
 	@Override
 	public Employer addEmployer(Employer employer) throws UserException {
-		if(!employer.getId().equals(null)) {
+		boolean isEmployerIdSpecified=employer.getId()!=null;
+		if(isEmployerIdSpecified) {
 			
 				throw new UserException("Employer Id should not be provided for new employer", ErrorCodes.EMPLOYER_ID_SHOULDNT_BE_PROVIDED);
 			
