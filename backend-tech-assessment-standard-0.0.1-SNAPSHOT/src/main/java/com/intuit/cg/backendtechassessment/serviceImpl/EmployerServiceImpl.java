@@ -37,8 +37,9 @@ public class EmployerServiceImpl implements EmployerService{
 		List<EmployerTable> employertables=employerDao.getEmployerByEin(employerEin);
 		if(employertables.size()>0) {
 			EmployerTable employerTable=employertables.get(0);
-			boolean checkEmployerIsValid=employer.getId().equals(employerTable.getId()) && employer.getName().equalsIgnoreCase(employerTable.getName());
+			boolean checkEmployerIsValid=  employer.getName().equalsIgnoreCase(employerTable.getName());
 			if (checkEmployerIsValid){
+				employer.setId((Integer)employerTable.getId());
 				return employer;
 			}
 			throw new UserException("Employer with Ein: "+employerEin+" is a mismatch with provided Employer name and Id.",ErrorCodes.EIN_NAME_ID_MISMATCH);
