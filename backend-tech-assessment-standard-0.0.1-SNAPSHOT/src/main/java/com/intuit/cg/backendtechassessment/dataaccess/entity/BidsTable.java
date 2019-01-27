@@ -14,13 +14,13 @@ import javax.persistence.NamedQuery;
 @Entity
 public class BidsTable {
 	@Id
-	@GeneratedValue(strategy=GenerationType.AUTO)
+	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	public long id;
 	@Column(nullable=true)
 	public double bidAmount;
 	public double maxBidAmout;
 	@ManyToOne
-	public ProjectsTable project;
+	public ProjectTable project;
 	@ManyToOne
 	public BidderTable bidder;
 	public BidderTable getBidder() {
@@ -47,10 +47,10 @@ public class BidsTable {
 	public void setMaxBidAmout(double maxBidAmout) {
 		this.maxBidAmout = maxBidAmout;
 	}
-	public ProjectsTable getProject() {
+	public ProjectTable getProject() {
 		return project;
 	}
-	public void setProject(ProjectsTable project) {
+	public void setProject(ProjectTable project) {
 		this.project = project;
 	}
 	

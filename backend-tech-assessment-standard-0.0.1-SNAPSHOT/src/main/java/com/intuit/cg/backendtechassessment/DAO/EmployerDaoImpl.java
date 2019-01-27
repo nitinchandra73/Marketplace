@@ -37,5 +37,9 @@ public class EmployerDaoImpl {
 		List<EmployerTable> employers = entityManager.createNamedQuery("EmployerTable.listEmployerByEin", EmployerTable.class).setParameter("ein", ein).getResultList();
 		return employers;
 	}
+	public List<EmployerTable> getEmployerById(int id){
+		List<EmployerTable> employers = entityManager.createNamedQuery("EmployerTable.listEmployerById", EmployerTable.class).setParameter("id", id).getResultList();
+		return employers;
+	}
 
 }

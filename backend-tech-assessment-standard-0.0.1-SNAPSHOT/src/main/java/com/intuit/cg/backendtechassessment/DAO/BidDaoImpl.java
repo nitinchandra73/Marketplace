@@ -18,7 +18,7 @@ import org.springframework.stereotype.Repository;
 import com.intuit.cg.backendtechassessment.controller.entity.Bid;
 import com.intuit.cg.backendtechassessment.dataaccess.entity.BidderTable;
 import com.intuit.cg.backendtechassessment.dataaccess.entity.BidsTable;
-import com.intuit.cg.backendtechassessment.dataaccess.entity.ProjectsTable;
+import com.intuit.cg.backendtechassessment.dataaccess.entity.ProjectTable;
 import com.intuit.cg.backendtechassessment.exception.ErrorCodes;
 import com.intuit.cg.backendtechassessment.exception.UserException;
 @Repository
@@ -29,7 +29,7 @@ public class BidDaoImpl {
 	private EntityManager entityManager;
 	public boolean isBidValid(Bid bid) throws UserException {
 		long projectId; // check is valid listing
-		ProjectsTable projectsTable;
+		ProjectTable projectsTable;
 		double currentBidAmount,leastBidAmount,currentBidLeastAmount;
 		projectId=bid.getProjectId();
 			projectsTable = getProjectById(projectId);
@@ -103,11 +103,11 @@ public class BidDaoImpl {
 		return null;
 	}
 	
-	ProjectsTable getProjectById(long projectId) throws UserException  {
+	ProjectTable getProjectById(long projectId) throws UserException  {
 //		Connection connection = getNewConnection();
 //		Statement statment=connection.createStatement();
 		//statment.ex
-		List<ProjectsTable> projectTableList=entityManager.createNamedQuery("projectTable.SELECT_PROJECT_BY_ID", ProjectsTable.class).setParameter("id", projectId).getResultList();
+		List<ProjectTable> projectTableList=entityManager.createNamedQuery("projectTable.SELECT_PROJECT_BY_ID", ProjectTable.class).setParameter("id", projectId).getResultList();
 		if( projectTableList.size()==1){
 			return projectTableList.get(0);
 		}

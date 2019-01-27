@@ -13,15 +13,17 @@ import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 
+import com.intuit.cg.backendtechassessment.controller.entity.Project;
+
 @Entity
 @NamedQueries({
-	@NamedQuery(name="projectTable.SELECT_PROJECT_BY_ID",query="select pt from ProjectsTable pt where pt.id= :id")
+	@NamedQuery(name="projectTable.SELECT_PROJECT_BY_ID",query="select pt from ProjectTable pt where pt.id= :id")
 })
-public class ProjectsTable {
+public class ProjectTable {
 
 	@Id
-	@GeneratedValue(strategy=GenerationType.AUTO)
-	public long id;
+	@GeneratedValue(strategy=GenerationType.IDENTITY)
+	public int id;
 	public String description;
 	public String name;
 	public long maximumBudget;
@@ -35,17 +37,27 @@ public class ProjectsTable {
 	public List<BidsTable> bids;
 	@OneToOne
 	public BidsTable leastBid;
-	
+	public ProjectTable() {
+		
+	}
+	public ProjectTable(Project project,EmployerTable employerTable) {
+		this.description=project.getDescription();
+		this.isBidExpired=false;
+		this.lastDate=project.getLastDate();
+		this.maximumBudget=project.getMaximumBudget();
+		this.name=project.getProjectName();
+		this.employer=employerTable;
+	}
 	public BidsTable getLeastBid() {
 		return leastBid;
 	}
 	public void setLeastBid(BidsTable leastBid) {
 		this.leastBid = leastBid;
 	}
-	public long getId() {
+	public int getId() {
 		return id;
 	}
-	public void setId(long id) {
+	public void setId(int id) {
 		this.id = id;
 	}
 	public String getDescription() {

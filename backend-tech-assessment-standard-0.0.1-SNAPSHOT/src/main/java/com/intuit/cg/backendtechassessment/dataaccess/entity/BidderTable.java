@@ -20,7 +20,7 @@ public class BidderTable {
 	public String name;
 	String ein;
 	@Id
-	@GeneratedValue(strategy=GenerationType.AUTO)
+	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	public int id;
 	
 	public BidderTable() {

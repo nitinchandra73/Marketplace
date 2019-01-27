@@ -22,7 +22,9 @@ import com.intuit.cg.backendtechassessment.controller.entity.Employer;
 
 @NamedQueries({
 	@NamedQuery(name="EmployerTable.LIST_ALL_EMPLOYERS", query="from EmployerTable"),
-	@NamedQuery(name="EmployerTable.listEmployerByEin",query="select e from EmployerTable e where e.ein= :ein")
+	@NamedQuery(name="EmployerTable.listEmployerByEin",query="select e from EmployerTable e where e.ein= :ein"),
+	@NamedQuery(name="EmployerTable.listEmployerById",query="select e from EmployerTable e where e.id= :id")
+	
 	//@NamedQuery(name="EmployerTable.insertNewEmployer",query="insert into EmployerTable e values e.name=:name e.ein= :ein ")
 	})
 public class EmployerTable {
@@ -30,13 +32,13 @@ public class EmployerTable {
 	String name;
 	//@UniqueElements
 	String ein;
-	@GeneratedValue(strategy=GenerationType.AUTO)
+	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	@Id
 	int id;
 //	String projectName;
 //	String projectDescription;
 	@OneToMany
-	List<ProjectsTable> projects;
+	List<ProjectTable> projects;
 	
 	public EmployerTable() {}
 	public EmployerTable(Employer employer) {
@@ -49,10 +51,10 @@ public class EmployerTable {
 	public void setEin(String ein) {
 		this.ein = ein;
 	}
-	public List<ProjectsTable> getProjects() {
+	public List<ProjectTable> getProjects() {
 		return projects;
 	}
-	public void setProjects(List<ProjectsTable> projects) {
+	public void setProjects(List<ProjectTable> projects) {
 		this.projects = projects;
 	}
 	public String getName() {

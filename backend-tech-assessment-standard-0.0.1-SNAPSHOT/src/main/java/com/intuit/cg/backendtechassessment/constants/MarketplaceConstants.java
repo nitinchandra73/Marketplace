@@ -6,6 +6,8 @@ public interface MarketplaceConstants {
 	public static final String POST_EMPLOYER_PATH = "/employer";
 	public static final String GET_BIDDER_PATH = "/bidder/ein/{ein}";
 	public static final String POST_BIDDER_PATH = "/bidder";
+	public static final String POST_PROJECT_PATH = "/project/ein/{ein}/employerId/{employerid}";
+	public static final String GET_PROJECT_PATH = "/project/employerId/{employerid}/projectId/{projectid}";
 	public static final String PROJECT_ID= "projectid";
 	public static final String BIDDER_ID = "bidderid";
 	public static final String BIDDER_EIN = "ein";
