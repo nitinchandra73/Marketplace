@@ -13,7 +13,7 @@ import javax.persistence.OneToMany;
 import com.intuit.cg.backendtechassessment.controller.entity.Bidder;
 @Entity
 @NamedQueries({
-	@NamedQuery(name="BidderTable.getBidderById",query="select b from BidderTable b where id= :id"),  
+	@NamedQuery(name="BidderTable.getBidderById",query="select b from BidderTable b where b.id= :id"),  
 	@NamedQuery(name="BidderTable.listBidderByEin",query="select b from BidderTable b where b.ein= :ein")
 })
 public class BidderTable {
@@ -32,12 +32,12 @@ public class BidderTable {
 	}
 	
 	@OneToMany
-	List<BidsTable> bids;
+	List<BidTable> bids;
 	
-	public List<BidsTable> getBids() {
+	public List<BidTable> getBids() {
 		return bids;
 	}
-	public void setBids(List<BidsTable> bids) {
+	public void setBids(List<BidTable> bids) {
 		this.bids = bids;
 	}
 	public String getName() {

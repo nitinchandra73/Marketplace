@@ -8,31 +8,42 @@ import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
+
+import com.intuit.cg.backendtechassessment.controller.entity.Bid;
 @NamedQueries({
-	@NamedQuery(name="bidsTable.getBidderIdForProjectId",query="select b from BidsTable b where bidder= :bidderId and project= :projectId")
+	@NamedQuery(name="bidTable.getBidderIdForProjectId",query="select b from BidTable b where b.bidder= :bidderId and b.project= :projectId")
 })
 @Entity
-public class BidsTable {
+public class BidTable {
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
-	public long id;
-	@Column(nullable=true)
+	public int id;
 	public double bidAmount;
-	public double maxBidAmout;
+	public double minimumBidAmout;
 	@ManyToOne
 	public ProjectTable project;
 	@ManyToOne
 	public BidderTable bidder;
+	public BidTable() {
+		
+	}
+	public BidTable(Bid bid, BidderTable bidderTable, ProjectTable projectTable) {
+		this.bidAmount=bid.getCurrentBidAmount();
+		this.minimumBidAmout=bid.getLeastBidAmount();
+		this.bidder=bidderTable;
+		this.project=projectTable;
+		
+	}
 	public BidderTable getBidder() {
 		return bidder;
 	}
 	public void setBidder(BidderTable bidder) {
 		this.bidder = bidder;
 	}
-	public long getId() {
+	public int getId() {
 		return id;
 	}
-	public void setId(long id) {
+	public void setId(int id) {
 		this.id = id;
 	}
 	public double getBidAmount() {
@@ -41,11 +52,11 @@ public class BidsTable {
 	public void setBidAmount(double bidAmount) {
 		this.bidAmount = bidAmount;
 	}
-	public double getMaxBidAmout() {
-		return maxBidAmout;
+	public double getMinimumBidAmout() {
+		return minimumBidAmout;
 	}
-	public void setMaxBidAmout(double maxBidAmout) {
-		this.maxBidAmout = maxBidAmout;
+	public void setMinimumBidAmout(double maxBidAmout) {
+		this.minimumBidAmout = maxBidAmout;
 	}
 	public ProjectTable getProject() {
 		return project;

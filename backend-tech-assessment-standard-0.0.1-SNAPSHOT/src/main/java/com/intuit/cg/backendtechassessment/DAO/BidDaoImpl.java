@@ -10,6 +10,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.sql.DataSource;
+import javax.transaction.Transactional;
 
 import org.hibernate.annotations.NamedNativeQueries;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,20 +18,20 @@ import org.springframework.stereotype.Repository;
 
 import com.intuit.cg.backendtechassessment.controller.entity.Bid;
 import com.intuit.cg.backendtechassessment.dataaccess.entity.BidderTable;
-import com.intuit.cg.backendtechassessment.dataaccess.entity.BidsTable;
+import com.intuit.cg.backendtechassessment.dataaccess.entity.BidTable;
 import com.intuit.cg.backendtechassessment.dataaccess.entity.ProjectTable;
 import com.intuit.cg.backendtechassessment.exception.ErrorCodes;
 import com.intuit.cg.backendtechassessment.exception.UserException;
 @Repository
+@Transactional
 public class BidDaoImpl {
-	@Autowired
-    DataSource dataSource;
+	
 	@Autowired
 	private EntityManager entityManager;
 	public boolean isBidValid(Bid bid) throws UserException {
-		long projectId; // check is valid listing
+		int projectId; // check is valid listing
 		ProjectTable projectsTable;
-		double currentBidAmount,leastBidAmount,currentBidLeastAmount;
+		double currentBidAmount,leastBidAmount=0,currentBidLeastAmount;
 		projectId=bid.getProjectId();
 			projectsTable = getProjectById(projectId);
 			if(!projectsTable.getName().equals(bid.getProjectTitle())) {
@@ -45,7 +46,10 @@ public class BidDaoImpl {
 		}
 		currentBidAmount=bid.getCurrentBidAmount();
 		currentBidLeastAmount=bid.getLeastBidAmount();
-		leastBidAmount=projectsTable.getLeastBid().getBidAmount();
+		if(projectsTable.getLeastBid()!=null) {
+			leastBidAmount=projectsTable.getLeastBid().getBidAmount();
+		}
+		
 		if(leastBidAmount>0) {
 			if(currentBidAmount<leastBidAmount) {
 				return true;
@@ -73,68 +77,49 @@ public class BidDaoImpl {
 		
 	}
 	public boolean isBidderExist(Bid bid) throws UserException {
-		long bidderId=bid.getBidderId();
+		int bidderId=bid.getBidderId();
 		if(bidderId==0) {
 			throw new UserException("Bidder with id "+bidderId+" doesnt exist. If adding new bidder then do not include bidder id", ErrorCodes.BIDDER_ID_DOESNT_EXIST) ;
 
 		}
-		List<BidderTable> bidderList=entityManager.createNamedQuery("BidderTable.getBidderById", BidderTable.class).setParameter("id", bidderId).getResultList();
-		if(bidderList.size()>0) {
-			return true;
-		}
-		throw new UserException("Bidder with id "+bidderId+" doesnt exist. If adding new bidder then do not include bidder id", ErrorCodes.BIDDER_ID_DOESNT_EXIST) ;
+		BidderTable bidderTable =getBidderById(bidderId);
+		System.out.println("im before true");
+		return true;
 	}
-	public boolean bidderBidAlreadyExist(Bid bid) {
-		bid.getBidderId(); bid.getProjectId();
-		List<BidsTable> bids =entityManager.createNamedQuery("bidsTable.getBidderIdForProjectId", BidsTable.class).setParameter("bidderId", bid.getBidderId()).setParameter("projectId", bid.getProjectId()).getResultList();
+	public boolean bidderBidAlreadyExist(Bid bid) throws UserException {
+		
+		List<BidTable> bids =entityManager.createNamedQuery("bidTable.getBidderIdForProjectId", BidTable.class).setParameter("bidderId", getBidderById(bid.getBidderId())).setParameter("projectId", getProjectById(bid.getProjectId())).getResultList();
 		if(bids.size()>0) {
 			return true;
 		}
 		return false;
 	}
-	public boolean isBiddingActive() {
-		
-		return false;
-	}
-	public boolean isTheBidLeastCoated() {
-		return false;
-	}
-	public Bid placeBid(Bid bid) {
-		return null;
+	
+	public Bid placeBid(Bid bid) throws UserException {
+		BidderTable bidderTable=getBidderById(bid.getBidderId());
+		ProjectTable projectTable =getProjectById(bid.getProjectId()); 
+		BidTable bidTable = new BidTable(bid,bidderTable,projectTable);
+		entityManager.persist(bidTable);
+		bid.setBidId(bidTable.getId());
+		return bid;
 	}
 	
-	ProjectTable getProjectById(long projectId) throws UserException  {
-//		Connection connection = getNewConnection();
-//		Statement statment=connection.createStatement();
-		//statment.ex
+	BidderTable getBidderById(int bidderId) throws UserException {
+		List<BidderTable> bidderList=entityManager.createNamedQuery("BidderTable.getBidderById", BidderTable.class).setParameter("id", bidderId).getResultList();
+		if(bidderList.size()==1) {
+			return bidderList.get(0);
+		}
+		throw new UserException("Bidder with id "+bidderId+" doesnt exist.", ErrorCodes.BIDDER_ID_DOESNT_EXIST) ;
+		
+	}
+	ProjectTable getProjectById(int projectId) throws UserException  {
+
 		List<ProjectTable> projectTableList=entityManager.createNamedQuery("projectTable.SELECT_PROJECT_BY_ID", ProjectTable.class).setParameter("id", projectId).getResultList();
 		if( projectTableList.size()==1){
 			return projectTableList.get(0);
 		}
 		throw new UserException("project doesnt exist for the give project id="+projectId,ErrorCodes.MISSING_PROJECT_FOR_ID);
 	}
-	Connection getNewConnection() throws SQLException{
-		try {
-			
-			return dataSource.getConnection();
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-			throw new SQLException("Unable to get new connection from database");
-		}
-	}
-	void closeConnection(Connection connection) throws SQLException{
-		try {
-			connection.close();
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-			throw new SQLException("Unable to close database connection");
-		}
-	}
-	public void addBidder(Bid bid) {
-	//	bid.get
-		// TODO Auto-generated method stub
-		
-	}
+	
+	
 }

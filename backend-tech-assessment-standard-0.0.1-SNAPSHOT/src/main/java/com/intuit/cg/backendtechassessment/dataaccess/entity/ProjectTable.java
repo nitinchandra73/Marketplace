@@ -26,7 +26,7 @@ public class ProjectTable {
 	public int id;
 	public String description;
 	public String name;
-	public long maximumBudget;
+	public int maximumBudget;
 	public Date lastDate;
 	public boolean isBidExpired;
 	@ManyToOne
@@ -34,9 +34,9 @@ public class ProjectTable {
 	@ManyToOne
 	public BidderTable lowestBidder;
 	@OneToMany
-	public List<BidsTable> bids;
+	public List<BidTable> bids;
 	@OneToOne
-	public BidsTable leastBid;
+	public BidTable leastBid;
 	public ProjectTable() {
 		
 	}
@@ -48,10 +48,10 @@ public class ProjectTable {
 		this.name=project.getProjectName();
 		this.employer=employerTable;
 	}
-	public BidsTable getLeastBid() {
+	public BidTable getLeastBid() {
 		return leastBid;
 	}
-	public void setLeastBid(BidsTable leastBid) {
+	public void setLeastBid(BidTable leastBid) {
 		this.leastBid = leastBid;
 	}
 	public int getId() {
@@ -66,10 +66,10 @@ public class ProjectTable {
 	public void setDescription(String description) {
 		this.description = description;
 	}
-	public long getMaximumBudget() {
+	public int getMaximumBudget() {
 		return maximumBudget;
 	}
-	public void setMaximumBudget(long maximumBudget) {
+	public void setMaximumBudget(int maximumBudget) {
 		this.maximumBudget = maximumBudget;
 	}
 	public Date getLastDate() {
@@ -102,10 +102,10 @@ public class ProjectTable {
 	public void setLowestBidder(BidderTable lowestBidder) {
 		this.lowestBidder = lowestBidder;
 	}
-	public List<BidsTable> getBids() {
+	public List<BidTable> getBids() {
 		return bids;
 	}
-	public void setBids(List<BidsTable> bids) {
+	public void setBids(List<BidTable> bids) {
 		this.bids = bids;
 	}
 	

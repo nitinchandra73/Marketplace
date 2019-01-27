@@ -4,17 +4,17 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
 public final class Bid {
-	long bidId;
+	int bidId;
 	@NotBlank
-	long employerId;
+	int employerId;
 	
-	long bidderId;
+	int bidderId;
 	@NotNull
 	String projectTitle; 
 	double leastBidAmount;
 	@NotNull
 	double currentBidAmount;
-	long projectId;
+	int projectId;
 	boolean bidLesserTillThresholdIfNotLeast;
 	
 	public boolean isBidLesserTillThresholdIfNotLeast() {
@@ -35,28 +35,28 @@ public final class Bid {
 	public void setCurrentBidAmount(double currentBidAmount) {
 		this.currentBidAmount = currentBidAmount;
 	}
-	public long getProjectId() {
+	public int getProjectId() {
 		return projectId;
 	}
-	public void setProjectId(long projectId) {
+	public void setProjectId(int projectId) {
 		this.projectId = projectId;
 	}
-	public long getBidId() {
+	public int getBidId() {
 		return bidId;
 	}
-	public void setBidId(long bidId) {
+	public void setBidId(int bidId) {
 		this.bidId = bidId;
 	}
-	public long getEmployerId() {
+	public int getEmployerId() {
 		return employerId;
 	}
-	public void setEmployerId(long employerId) {
+	public void setEmployerId(int employerId) {
 		this.employerId = employerId;
 	}
-	public long getBidderId() {
+	public int getBidderId() {
 		return bidderId;
 	}
-	public void setBidderId(long employeeId) {
+	public void setBidderId(int employeeId) {
 		this.bidderId = employeeId;
 	}
 	public String getProjectTitle() {

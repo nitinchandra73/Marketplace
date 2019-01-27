@@ -16,7 +16,7 @@ public class Project {
 	@NotBlank
 	String description;
 	@NotBlank
-	Long maximumBudget;
+	Integer maximumBudget;
 	@NotBlank
 	Date lastDate;
 	Integer leastBidId;
@@ -57,10 +57,10 @@ public class Project {
 	public void setDescription(String description) {
 		this.description = description;
 	}
-	public Long getMaximumBudget() {
+	public Integer getMaximumBudget() {
 		return maximumBudget;
 	}
-	public void setMaximumBudget(Long maximumBudget) {
+	public void setMaximumBudget(Integer maximumBudget) {
 		this.maximumBudget = maximumBudget;
 	}
 	public Date getLastDate() {

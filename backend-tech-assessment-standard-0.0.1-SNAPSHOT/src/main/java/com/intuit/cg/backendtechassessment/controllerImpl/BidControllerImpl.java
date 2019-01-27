@@ -14,37 +14,38 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.intuit.cg.backendtechassessment.constants.MarketplaceConstants;
-import com.intuit.cg.backendtechassessment.controller.ProspectEmployeeController;
+import com.intuit.cg.backendtechassessment.controller.BidController;
 import com.intuit.cg.backendtechassessment.controller.entity.Bid;
+import com.intuit.cg.backendtechassessment.controller.entity.Status;
 import com.intuit.cg.backendtechassessment.exception.UserException;
 import com.intuit.cg.backendtechassessment.service.BidService;
 import com.intuit.cg.backendtechassessment.util.ControllerUtil;
 
 @RestController
-public class ProspectEmployeeControllerImpl implements ProspectEmployeeController,MarketplaceConstants {
-	@Autowired
-	ControllerUtil controllerUtil;
+public class BidControllerImpl implements BidController,MarketplaceConstants {
+	
 	@Autowired
 	BidService bidservice;
-	private static final Logger LOGGER = LoggerFactory.getLogger(ProspectEmployeeControllerImpl.class);
+	private static final Logger LOGGER = LoggerFactory.getLogger(BidControllerImpl.class);
 	@Override
 	@RequestMapping(value=POST_BID_PATH, method=RequestMethod.POST)
-	public ResponseEntity<Object> newBid(@PathVariable(PROJECT_ID) String projectId, @PathVariable(BIDDER_ID)String bidderId,  @RequestBody Bid bid) {
+	public ResponseEntity<Object> newBid(@PathVariable(PROJECT_ID) int projectId, @PathVariable(BIDDER_ID)int bidderId,  @RequestBody Bid bid) {
 		// TODO Auto-generated method stub
+		
 		Bid responseBid=null;
 		try {
 			responseBid = bidservice.addBid(bid);
+			return new ResponseEntity<Object>(responseBid, HttpStatus.OK);
 		} catch (UserException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			Status status = new Status();
+			status.setStatusMessage(e.toString());
+			LOGGER.error("hi nitin");
+			return new ResponseEntity<Object>(status, HttpStatus.BAD_REQUEST);
 		}
 		
-		controllerUtil.isValid(bid);
-		LOGGER.error("hi nitin");
-		return new ResponseEntity<Object>(responseBid,HttpStatus.OK);
 	}
 	@RequestMapping(value=POST_BID_PATH, method=RequestMethod.GET)
-	public ResponseEntity<Object> getBid(@PathVariable(PROJECT_ID) String projectId, @PathVariable(BIDDER_ID)String bidderId) {
+	public ResponseEntity<Object> getBid(@PathVariable(PROJECT_ID) int projectId, @PathVariable(BIDDER_ID)int bidderId) {
 		Bid bid = new Bid();
 		bid.setBidId(0);
 		bid.setCurrentBidAmount(0);
