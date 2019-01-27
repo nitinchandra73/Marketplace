@@ -19,19 +19,34 @@ import com.intuit.cg.backendtechassessment.service.EmployerService;
 @RestController
 public class EmployerRegistrationControllerImpl implements MarketplaceConstants{
 
+	
 	@Autowired
 	EmployerService employerService;
 	@RequestMapping(path=POST_EMPLOYER_PATH,method=RequestMethod.POST)
 	public ResponseEntity<Object> addNewEmployer(@RequestBody Employer employer) {
-		System.out.println("Nitin im in controller");
+		//System.out.println("Nitin im in controller");
+		Employer employerResponse;
 			try {
-				employerService.addEmployer(employer);
+				 employerResponse=employerService.addEmployer(employer);
 			} catch (UserException e) {
 				Status status = new Status();
 				status.setStatusMessage(e.toString());
 				return new ResponseEntity<Object>(status, HttpStatus.BAD_REQUEST);
 			}
 		
-		return null;	
+			return new ResponseEntity<Object>(employerResponse, HttpStatus.OK);	
+	}
+	@RequestMapping(path=GET_EMPLOYER_PATH,method=RequestMethod.GET)
+	public ResponseEntity<Object> getEmployer(@PathVariable(name=EMPLOYER_EIN) String employerEin, @RequestBody Employer employer) {
+		Employer employerResponse;
+		try {
+			employerResponse=employerService.getEmployer(employerEin,employer);
+			return new ResponseEntity<Object>(employerResponse, HttpStatus.OK);
+		} catch (UserException e) {
+			Status status = new Status();
+			status.setStatusMessage(e.toString());
+			return new ResponseEntity<Object>(status, HttpStatus.BAD_REQUEST);
+		}
+		
 	}
 }

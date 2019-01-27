@@ -7,4 +7,7 @@ public interface EmployerService {
 
 	Employer addEmployer(Employer employer) throws UserException;
 
+	
+	Employer getEmployer(String employerEin, Employer employer) throws UserException;
+
 }

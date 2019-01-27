@@ -29,12 +29,13 @@ public class EmployerTable {
 	String ein;
 	@GeneratedValue(strategy=GenerationType.AUTO)
 	@Id
-	long id;
+	int id;
 //	String projectName;
 //	String projectDescription;
 	@OneToMany
 	List<ProjectsTable> projects;
 	
+	public EmployerTable() {}
 	public EmployerTable(Employer employer) {
 		this.name=employer.getName();
 		this.ein=employer.getEin();
@@ -57,10 +58,10 @@ public class EmployerTable {
 	public void setName(String name) {
 		this.name = name;
 	}
-	public long getId() {
+	public int getId() {
 		return id;
 	}
-	public void setId(long id) {
+	public void setId(int id) {
 		this.id = id;
 	}
 	

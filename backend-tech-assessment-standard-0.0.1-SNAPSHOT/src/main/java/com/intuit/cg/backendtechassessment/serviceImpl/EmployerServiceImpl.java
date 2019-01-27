@@ -1,5 +1,7 @@
 package com.intuit.cg.backendtechassessment.serviceImpl;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -8,6 +10,7 @@ import org.springframework.stereotype.Service;
 import com.intuit.cg.backendtechassessment.DAO.EmployerDaoImpl;
 import com.intuit.cg.backendtechassessment.controller.entity.Employer;
 import com.intuit.cg.backendtechassessment.controller.entity.Status;
+import com.intuit.cg.backendtechassessment.dataaccess.entity.EmployerTable;
 import com.intuit.cg.backendtechassessment.exception.ErrorCodes;
 import com.intuit.cg.backendtechassessment.exception.UserException;
 import com.intuit.cg.backendtechassessment.service.EmployerService;
@@ -27,6 +30,20 @@ public class EmployerServiceImpl implements EmployerService{
 		
 		return employerDao.addEmployer(employer);
 		
+	}
+	
+	@Override
+	public Employer getEmployer(String employerEin,Employer employer) throws UserException {
+		List<EmployerTable> employertables=employerDao.getEmployerByEin(employerEin);
+		if(employertables.size()>0) {
+			EmployerTable employerTable=employertables.get(0);
+			boolean checkEmployerIsValid=employer.getId().equals(employerTable.getId()) && employer.getName().equalsIgnoreCase(employerTable.getName());
+			if (checkEmployerIsValid){
+				return employer;
+			}
+			throw new UserException("Employer with Ein: "+employerEin+" is a mismatch with provided Employer name and Id.",ErrorCodes.EIN_NAME_ID_MISMATCH);
+		}
+		throw new UserException("Employer with Ein: "+employerEin+"doesnt exist",ErrorCodes.EMPLOYER_DOESNT_EXIST);	
 	}
 
 }

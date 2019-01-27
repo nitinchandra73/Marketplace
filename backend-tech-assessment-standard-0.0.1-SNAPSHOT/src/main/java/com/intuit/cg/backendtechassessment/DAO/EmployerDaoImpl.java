@@ -28,6 +28,7 @@ public class EmployerDaoImpl {
 		}
 		EmployerTable employerTable = new EmployerTable(employer);
 		entityManager.persist(employerTable);
+		employer.setId(employerTable.getId());
 		//entityManager.createNamedQuery("EmployerTable.insertNewEmployer").setParameter("name", employer.getName()).setParameter("ein", employer.getEin()).get;
 		return employer;
 	}
