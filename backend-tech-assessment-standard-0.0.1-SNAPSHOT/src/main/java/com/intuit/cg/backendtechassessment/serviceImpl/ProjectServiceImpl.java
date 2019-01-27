@@ -5,8 +5,8 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.intuit.cg.backendtechassessment.DAO.EmployerDaoImpl;
-import com.intuit.cg.backendtechassessment.DAO.ProjectDaoImpl;
+import com.intuit.cg.backendtechassessment.DAO.EmployerDao;
+import com.intuit.cg.backendtechassessment.DAO.ProjectDao;
 import com.intuit.cg.backendtechassessment.controller.entity.Employer;
 import com.intuit.cg.backendtechassessment.controller.entity.Project;
 import com.intuit.cg.backendtechassessment.dataaccess.entity.EmployerTable;
@@ -17,9 +17,9 @@ import com.intuit.cg.backendtechassessment.service.ProjectService;
 public class ProjectServiceImpl implements ProjectService{
 
 	@Autowired
-	EmployerDaoImpl employerDao;
+	EmployerDao employerDao;
 	@Autowired
-	ProjectDaoImpl projectDao;
+	ProjectDao projectDao;
 	@Override
 	public Project addProject(int employerId, String ein,Project project) throws UserException {
 		// TODO Auto-generated method stub

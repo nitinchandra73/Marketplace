@@ -5,7 +5,8 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.intuit.cg.backendtechassessment.DAO.BidDaoImpl;
+import com.intuit.cg.backendtechassessment.DAO.BidDao;
+import com.intuit.cg.backendtechassessment.DAOImpl.BidDaoImpl;
 import com.intuit.cg.backendtechassessment.controller.entity.Bid;
 import com.intuit.cg.backendtechassessment.controllerImpl.BidControllerImpl;
 import com.intuit.cg.backendtechassessment.dataaccess.entity.BidTable;
@@ -16,7 +17,7 @@ import com.intuit.cg.backendtechassessment.service.BidService;
 public class BidServiceImpl implements BidService {
 	private static final Logger LOGGER = LoggerFactory.getLogger(BidServiceImpl.class);
 	@Autowired
-	BidDaoImpl bidDao;
+	BidDao bidDao;
 	@Override
 	public Bid addBid(Bid bid) throws UserException {
 		boolean isBidderExist= bidDao.isBidderExist(bid);

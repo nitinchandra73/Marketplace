@@ -19,7 +19,7 @@ public class Project {
 	Integer maximumBudget;
 	@NotBlank
 	Date lastDate;
-	Integer leastBidId;
+	
 	boolean isBidActive;
 	public Project() {
 		
@@ -32,6 +32,7 @@ public class Project {
 		this.maximumBudget = projectTable.getMaximumBudget();
 		this.lastDate=projectTable.getLastDate();
 		this.isBidActive=(!projectTable.isBidExpired);
+		
 	}
 	public Integer getId() {
 		return id;
@@ -69,12 +70,7 @@ public class Project {
 	public void setLastDate(Date lastDate) {
 		this.lastDate = lastDate;
 	}
-	public Integer getLeastBidId() {
-		return leastBidId;
-	}
-	public void setLeastBidId(Integer leastBidId) {
-		this.leastBidId = leastBidId;
-	}
+
 	public boolean isBidActive() {
 		return isBidActive;
 	}

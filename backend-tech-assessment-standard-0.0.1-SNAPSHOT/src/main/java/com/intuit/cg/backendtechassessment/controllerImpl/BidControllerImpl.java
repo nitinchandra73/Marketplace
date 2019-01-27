@@ -45,6 +45,7 @@ public class BidControllerImpl implements BidController,MarketplaceConstants {
 		
 	}
 	@RequestMapping(value=GET_BID_PATH, method=RequestMethod.GET)
+	@Override
 	public ResponseEntity<Object> getBid(@PathVariable(PROJECT_ID) int projectId, @PathVariable(BIDDER_ID)int bidderId,@PathVariable(name= BID_ID) int bidId ) {
 		Bid responseBid;
 		try {

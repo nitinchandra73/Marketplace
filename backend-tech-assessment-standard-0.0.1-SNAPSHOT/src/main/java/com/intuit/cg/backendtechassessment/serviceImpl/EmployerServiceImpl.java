@@ -7,7 +7,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
-import com.intuit.cg.backendtechassessment.DAO.EmployerDaoImpl;
+import com.intuit.cg.backendtechassessment.DAO.EmployerDao;
 import com.intuit.cg.backendtechassessment.controller.entity.Employer;
 import com.intuit.cg.backendtechassessment.controller.entity.Status;
 import com.intuit.cg.backendtechassessment.dataaccess.entity.EmployerTable;
@@ -18,7 +18,7 @@ import com.intuit.cg.backendtechassessment.service.EmployerService;
 @Service
 public class EmployerServiceImpl implements EmployerService{
 	@Autowired
-	EmployerDaoImpl employerDao;
+	EmployerDao employerDao;
 	@Override
 	public Employer addEmployer(Employer employer) throws UserException {
 		boolean isEmployerIdSpecified=employer.getId()!=null;

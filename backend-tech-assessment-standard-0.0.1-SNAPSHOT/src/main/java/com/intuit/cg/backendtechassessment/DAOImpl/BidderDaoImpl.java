@@ -1,4 +1,4 @@
-package com.intuit.cg.backendtechassessment.DAO;
+package com.intuit.cg.backendtechassessment.DAOImpl;
 
 import java.util.List;
 
@@ -8,6 +8,7 @@ import javax.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import com.intuit.cg.backendtechassessment.DAO.BidderDao;
 import com.intuit.cg.backendtechassessment.controller.entity.Bidder;
 import com.intuit.cg.backendtechassessment.controller.entity.Employer;
 import com.intuit.cg.backendtechassessment.dataaccess.entity.BidderTable;
@@ -17,9 +18,10 @@ import com.intuit.cg.backendtechassessment.exception.UserException;
 
 @Repository
 @Transactional
-public class BidderDaoImpl {
+public class BidderDaoImpl implements BidderDao{
 	@Autowired
 	private EntityManager entityManager;
+	@Override
 	public Bidder addBidder(Bidder bidder) throws UserException {
 		// TODO Auto-generated method stub
 		String ein=bidder.getEin();
@@ -33,7 +35,7 @@ public class BidderDaoImpl {
 		//entityManager.createNamedQuery("BidderTable.insertNewBidder").setParameter("name", bidder.getName()).setParameter("ein", bidder.getEin()).get;
 		return bidder;
 	}
-	
+	@Override
 	public List<BidderTable> getBidderByEin(String ein){
 		List<BidderTable> bidders = entityManager.createNamedQuery("BidderTable.listBidderByEin", BidderTable.class).setParameter("ein", ein).getResultList();
 		return bidders;

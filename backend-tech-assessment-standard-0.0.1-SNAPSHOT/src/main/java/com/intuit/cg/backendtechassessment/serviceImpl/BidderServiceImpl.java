@@ -5,8 +5,9 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.intuit.cg.backendtechassessment.DAO.BidderDaoImpl;
-import com.intuit.cg.backendtechassessment.DAO.EmployerDaoImpl;
+import com.intuit.cg.backendtechassessment.DAO.BidderDao;
+import com.intuit.cg.backendtechassessment.DAOImpl.BidderDaoImpl;
+import com.intuit.cg.backendtechassessment.DAOImpl.EmployerDaoImpl;
 import com.intuit.cg.backendtechassessment.controller.entity.Bidder;
 import com.intuit.cg.backendtechassessment.controller.entity.Employer;
 import com.intuit.cg.backendtechassessment.dataaccess.entity.BidderTable;
@@ -17,7 +18,7 @@ import com.intuit.cg.backendtechassessment.service.BidderService;
 @Service
 public class BidderServiceImpl implements BidderService{
 	@Autowired
-	BidderDaoImpl bidderDao;
+	BidderDao bidderDao;
 	@Override
 	public Bidder addBidder(Bidder bidder) throws UserException {
 		boolean isBidderIdSpecified=bidder.getId()!=null;

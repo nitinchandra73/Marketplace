@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.intuit.cg.backendtechassessment.constants.MarketplaceConstants;
+import com.intuit.cg.backendtechassessment.controller.ProjectController;
 import com.intuit.cg.backendtechassessment.controller.entity.Employer;
 import com.intuit.cg.backendtechassessment.controller.entity.Project;
 import com.intuit.cg.backendtechassessment.controller.entity.Status;
@@ -18,11 +19,12 @@ import com.intuit.cg.backendtechassessment.service.EmployerService;
 import com.intuit.cg.backendtechassessment.service.ProjectService;
 
 @RestController
-public class ProjectControllerImpl implements MarketplaceConstants{
+public class ProjectControllerImpl implements ProjectController,MarketplaceConstants{
 
 	@Autowired
 	ProjectService projectService;
 	@RequestMapping(path=POST_PROJECT_PATH,method=RequestMethod.POST)
+	@Override
 	public ResponseEntity<Object> addNewProject(@PathVariable(name=EMPLOYER_ID) int employerId, @PathVariable(name=EMPLOYER_EIN) String ein,@RequestBody Project project ) {
 		try {
 			Project responseProject=projectService.addProject(employerId,ein,project);
@@ -38,6 +40,7 @@ public class ProjectControllerImpl implements MarketplaceConstants{
 	}
 	
 	@RequestMapping(path=GET_PROJECT_PATH,method=RequestMethod.GET)
+	@Override
 	public ResponseEntity<Object> getProject(@PathVariable(name=EMPLOYER_ID) int employerId, @PathVariable(name=PROJECT_ID) Integer projectid ) {
 		Project responseProject;
 		try {

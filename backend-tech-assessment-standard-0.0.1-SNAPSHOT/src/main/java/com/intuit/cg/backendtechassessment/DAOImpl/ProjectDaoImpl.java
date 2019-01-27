@@ -1,4 +1,4 @@
-package com.intuit.cg.backendtechassessment.DAO;
+package com.intuit.cg.backendtechassessment.DAOImpl;
 
 import java.util.List;
 
@@ -8,6 +8,7 @@ import javax.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import com.intuit.cg.backendtechassessment.DAO.ProjectDao;
 import com.intuit.cg.backendtechassessment.controller.entity.Project;
 import com.intuit.cg.backendtechassessment.dataaccess.entity.EmployerTable;
 import com.intuit.cg.backendtechassessment.dataaccess.entity.ProjectTable;
@@ -16,11 +17,12 @@ import com.intuit.cg.backendtechassessment.exception.UserException;
 
 @Repository
 @Transactional
-public class ProjectDaoImpl {
+public class ProjectDaoImpl implements ProjectDao {
 
 	@Autowired
 	private EntityManager entityManager;
 	
+	@Override
 	public Project addProject(Project project, EmployerTable employerTable)  {
 		// TODO Auto-generated method stub
 		
@@ -31,6 +33,7 @@ public class ProjectDaoImpl {
 		return project;
 	}
 
+	@Override
 	public Project getProject(int employerId, Integer projectid) throws UserException {
 		// TODO Auto-generated method stub
 		List<ProjectTable> projectTables = entityManager.createNamedQuery("projectTable.SELECT_PROJECT_BY_ID", ProjectTable.class).setParameter("id", projectid).getResultList();

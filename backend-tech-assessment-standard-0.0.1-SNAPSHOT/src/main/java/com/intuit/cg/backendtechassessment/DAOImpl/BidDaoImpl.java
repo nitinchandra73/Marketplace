@@ -1,4 +1,4 @@
-package com.intuit.cg.backendtechassessment.DAO;
+package com.intuit.cg.backendtechassessment.DAOImpl;
 
 import java.sql.Connection;
 import java.sql.SQLException;
@@ -16,6 +16,7 @@ import org.hibernate.annotations.NamedNativeQueries;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import com.intuit.cg.backendtechassessment.DAO.BidDao;
 import com.intuit.cg.backendtechassessment.controller.entity.Bid;
 import com.intuit.cg.backendtechassessment.dataaccess.entity.BidderTable;
 import com.intuit.cg.backendtechassessment.dataaccess.entity.BidTable;
@@ -24,10 +25,11 @@ import com.intuit.cg.backendtechassessment.exception.ErrorCodes;
 import com.intuit.cg.backendtechassessment.exception.UserException;
 @Repository
 @Transactional
-public class BidDaoImpl {
+public class BidDaoImpl implements BidDao{
 	
 	@Autowired
 	private EntityManager entityManager;
+	@Override
 	public boolean isBidValid(Bid bid) throws UserException {
 		int projectId; // check is valid listing
 		ProjectTable projectsTable;
@@ -76,6 +78,7 @@ public class BidDaoImpl {
 		
 		
 	}
+	@Override
 	public boolean isBidderExist(Bid bid) throws UserException {
 		int bidderId=bid.getBidderId();
 		if(bidderId==0) {
@@ -86,6 +89,8 @@ public class BidDaoImpl {
 		System.out.println("im before true");
 		return true;
 	}
+	
+	@Override
 	public boolean bidderBidAlreadyExist(Bid bid) throws UserException {
 		
 		List<BidTable> bids =entityManager.createNamedQuery("bidTable.getBidderIdForProjectId", BidTable.class).setParameter("bidderId", getBidderById(bid.getBidderId())).setParameter("projectId", getProjectById(bid.getProjectId())).getResultList();
@@ -95,6 +100,7 @@ public class BidDaoImpl {
 		return false;
 	}
 	
+	@Override
 	public Bid placeBid(Bid bid) throws UserException {
 		BidderTable bidderTable=getBidderById(bid.getBidderId());
 		ProjectTable projectTable =getProjectById(bid.getProjectId()); 
@@ -104,7 +110,8 @@ public class BidDaoImpl {
 		return bid;
 	}
 	
-	BidderTable getBidderById(int bidderId) throws UserException {
+	@Override
+	public BidderTable getBidderById(int bidderId) throws UserException {
 		List<BidderTable> bidderList=entityManager.createNamedQuery("BidderTable.getBidderById", BidderTable.class).setParameter("id", bidderId).getResultList();
 		if(bidderList.size()==1) {
 			return bidderList.get(0);
@@ -112,7 +119,9 @@ public class BidDaoImpl {
 		throw new UserException("Bidder with id "+bidderId+" doesnt exist.", ErrorCodes.BIDDER_ID_DOESNT_EXIST) ;
 		
 	}
-	ProjectTable getProjectById(int projectId) throws UserException  {
+	
+	@Override
+	public ProjectTable getProjectById(int projectId) throws UserException  {
 
 		List<ProjectTable> projectTableList=entityManager.createNamedQuery("projectTable.SELECT_PROJECT_BY_ID", ProjectTable.class).setParameter("id", projectId).getResultList();
 		if( projectTableList.size()==1){
@@ -120,6 +129,8 @@ public class BidDaoImpl {
 		}
 		throw new UserException("project doesnt exist for the give project id="+projectId,ErrorCodes.MISSING_PROJECT_FOR_ID);
 	}
+	
+	@Override
 	public Bid getBid(int projectId, int bidderId, int bidId) throws UserException {
 		// TODO Auto-generated method stub
 		List<BidTable>bidTables=entityManager.createNamedQuery("bidTable.getBidForId", BidTable.class).setParameter("id", bidId).getResultList();

@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.intuit.cg.backendtechassessment.constants.MarketplaceConstants;
+import com.intuit.cg.backendtechassessment.controller.EmployerRegistrationController;
 import com.intuit.cg.backendtechassessment.controller.entity.Employer;
 import com.intuit.cg.backendtechassessment.controller.entity.Status;
 import com.intuit.cg.backendtechassessment.exception.ErrorCodes;
@@ -17,12 +18,13 @@ import com.intuit.cg.backendtechassessment.exception.UserException;
 import com.intuit.cg.backendtechassessment.service.EmployerService;
 
 @RestController
-public class EmployerRegistrationControllerImpl implements MarketplaceConstants{
+public class EmployerRegistrationControllerImpl implements EmployerRegistrationController, MarketplaceConstants{
 
 	
 	@Autowired
 	EmployerService employerService;
 	@RequestMapping(path=POST_EMPLOYER_PATH,method=RequestMethod.POST)
+	@Override
 	public ResponseEntity<Object> addNewEmployer(@RequestBody Employer employer) {
 		//System.out.println("Nitin im in controller");
 		Employer employerResponse;
@@ -37,6 +39,7 @@ public class EmployerRegistrationControllerImpl implements MarketplaceConstants{
 			return new ResponseEntity<Object>(employerResponse, HttpStatus.OK);	
 	}
 	@RequestMapping(path=GET_EMPLOYER_PATH,method=RequestMethod.GET)
+	@Override
 	public ResponseEntity<Object> getEmployer(@PathVariable(name=EMPLOYER_EIN) String employerEin, @RequestBody Employer employer) {
 		Employer employerResponse;
 		try {

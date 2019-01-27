@@ -24,7 +24,7 @@ public class BidderRegistrationControllerImpl implements BidderRegistrationContr
 	@Autowired
 	BidderServiceImpl bidderService;
 	@RequestMapping(path=POST_BIDDER_PATH,method=RequestMethod.POST)
-	
+	@Override
 	public ResponseEntity<Object> addNewBidder(@RequestBody Bidder bidder) {
 		Bidder bidderResponse;
 		try {
@@ -40,7 +40,7 @@ public class BidderRegistrationControllerImpl implements BidderRegistrationContr
 	}
 	
 	@RequestMapping(path=GET_BIDDER_PATH,method=RequestMethod.GET)
-	
+	@Override
 	public ResponseEntity<Object> getBidder(@PathVariable(name=BIDDER_EIN) String bidderEin, @RequestBody Bidder bidder) {
 		Bidder bidderResponse;
 		try {
