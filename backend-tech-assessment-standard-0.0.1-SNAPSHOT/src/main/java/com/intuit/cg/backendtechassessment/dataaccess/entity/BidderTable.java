@@ -9,16 +9,27 @@ import javax.persistence.Id;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
+
+import com.intuit.cg.backendtechassessment.controller.entity.Bidder;
 @Entity
 @NamedQueries({
-	@NamedQuery(name="BidderTable.getBidderById",query="select b from BidderTable b where id= :id")
+	@NamedQuery(name="BidderTable.getBidderById",query="select b from BidderTable b where id= :id"),  
+	@NamedQuery(name="BidderTable.listBidderByEin",query="select b from BidderTable b where b.ein= :ein")
 })
 public class BidderTable {
 	public String name;
+	String ein;
 	@Id
 	@GeneratedValue(strategy=GenerationType.AUTO)
-	public long id;
-
+	public int id;
+	
+	public BidderTable() {
+		
+	}
+	public BidderTable(Bidder bidder) {
+		this.name=bidder.getName();
+		this.ein=bidder.getEin();
+	}
 	
 	@OneToMany
 	List<BidsTable> bids;
@@ -35,10 +46,10 @@ public class BidderTable {
 	public void setName(String name) {
 		this.name = name;
 	}
-	public long getId() {
+	public int getId() {
 		return id;
 	}
-	public void setId(long id) {
+	public void setId(int id) {
 		this.id = id;
 	}
 

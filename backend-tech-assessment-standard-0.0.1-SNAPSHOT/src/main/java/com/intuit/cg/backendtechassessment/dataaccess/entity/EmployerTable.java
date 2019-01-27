@@ -11,6 +11,8 @@ import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import org.hibernate.validator.constraints.UniqueElements;
+
 import com.intuit.cg.backendtechassessment.controller.entity.Employer;
 
 
@@ -20,12 +22,13 @@ import com.intuit.cg.backendtechassessment.controller.entity.Employer;
 
 @NamedQueries({
 	@NamedQuery(name="EmployerTable.LIST_ALL_EMPLOYERS", query="from EmployerTable"),
-	@NamedQuery(name="EmployerTable.listEmployerByEin",query="select e from EmployerTable e where e.ein= :ein"),
+	@NamedQuery(name="EmployerTable.listEmployerByEin",query="select e from EmployerTable e where e.ein= :ein")
 	//@NamedQuery(name="EmployerTable.insertNewEmployer",query="insert into EmployerTable e values e.name=:name e.ein= :ein ")
 	})
 public class EmployerTable {
 
 	String name;
+	//@UniqueElements
 	String ein;
 	@GeneratedValue(strategy=GenerationType.AUTO)
 	@Id

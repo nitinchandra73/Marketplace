@@ -44,7 +44,7 @@ public class EmployerServiceImpl implements EmployerService{
 			}
 			throw new UserException("Employer with Ein: "+employerEin+" is a mismatch with provided Employer name and Id.",ErrorCodes.EIN_NAME_ID_MISMATCH);
 		}
-		throw new UserException("Employer with Ein: "+employerEin+"doesnt exist",ErrorCodes.EMPLOYER_DOESNT_EXIST);	
+		throw new UserException("Employer with Ein: "+employerEin+" doesnt exist",ErrorCodes.EMPLOYER_DOESNT_EXIST);	
 	}
 
 }
