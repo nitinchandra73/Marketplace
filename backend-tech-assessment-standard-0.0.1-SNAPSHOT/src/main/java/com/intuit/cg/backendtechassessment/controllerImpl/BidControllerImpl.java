@@ -44,15 +44,18 @@ public class BidControllerImpl implements BidController,MarketplaceConstants {
 		}
 		
 	}
-	@RequestMapping(value=POST_BID_PATH, method=RequestMethod.GET)
-	public ResponseEntity<Object> getBid(@PathVariable(PROJECT_ID) int projectId, @PathVariable(BIDDER_ID)int bidderId) {
-		Bid bid = new Bid();
-		bid.setBidId(0);
-		bid.setCurrentBidAmount(0);
-		bid.setBidderId(0);
-		bid.setEmployerId(0);
-		bid.setLeastBidAmount(0);
-		bid.setProjectTitle("f");
-		return new ResponseEntity<Object>(bid,HttpStatus.OK);
+	@RequestMapping(value=GET_BID_PATH, method=RequestMethod.GET)
+	public ResponseEntity<Object> getBid(@PathVariable(PROJECT_ID) int projectId, @PathVariable(BIDDER_ID)int bidderId,@PathVariable(name= BID_ID) int bidId ) {
+		Bid responseBid;
+		try {
+			System.out.println("Hey Nitin");
+			responseBid = bidservice.getBid(projectId,bidderId,bidId);
+			return new ResponseEntity<Object>(responseBid,HttpStatus.OK);
+		} catch (UserException e) {
+			Status status = new Status();
+			status.setStatusMessage(e.toString());
+			//LOGGER.error("hi nitin");
+			return new ResponseEntity<Object>(status, HttpStatus.BAD_REQUEST);
+		}
 	}
 }

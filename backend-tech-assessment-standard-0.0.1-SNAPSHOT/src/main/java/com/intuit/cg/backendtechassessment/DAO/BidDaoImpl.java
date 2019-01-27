@@ -120,6 +120,26 @@ public class BidDaoImpl {
 		}
 		throw new UserException("project doesnt exist for the give project id="+projectId,ErrorCodes.MISSING_PROJECT_FOR_ID);
 	}
+	public Bid getBid(int projectId, int bidderId, int bidId) throws UserException {
+		// TODO Auto-generated method stub
+		List<BidTable>bidTables=entityManager.createNamedQuery("bidTable.getBidForId", BidTable.class).setParameter("id", bidId).getResultList();
+		if(bidTables.size()>0) {
+			BidTable bidTable= bidTables.get(0);
+			if (bidderId!=bidTable.getBidder().getId()) {
+				throw new UserException("Bidder Id doesnt match", ErrorCodes.BIDDER_ID_DOSENT_MATCH);
+
+			}
+			if(projectId!=bidTable.getProject().getId()) {
+				throw new UserException("Project Id dosent match.", ErrorCodes.PROJECT_ID_DOSENT_EXIST);
+
+			}
+			ProjectTable projectTable=getProjectById(projectId);
+			Bid responseBid = new Bid(bidTable, projectTable,projectId,  bidderId);
+			return responseBid;
+			
+		}
+		throw new UserException("Bid for bid Id: "+bidId+" dosent exist", ErrorCodes.BID_ID_DOSENT_EXIST);
+	}
 	
 	
 }

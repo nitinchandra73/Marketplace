@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import com.intuit.cg.backendtechassessment.DAO.BidDaoImpl;
 import com.intuit.cg.backendtechassessment.controller.entity.Bid;
 import com.intuit.cg.backendtechassessment.controllerImpl.BidControllerImpl;
+import com.intuit.cg.backendtechassessment.dataaccess.entity.BidTable;
 import com.intuit.cg.backendtechassessment.exception.ErrorCodes;
 import com.intuit.cg.backendtechassessment.exception.UserException;
 import com.intuit.cg.backendtechassessment.service.BidService;
@@ -34,5 +35,12 @@ public class BidServiceImpl implements BidService {
 	
 		return responseBid;	
 
+	}
+	@Override
+	public Bid getBid(int projectId, int bidderId, int bidId) throws UserException {
+		// TODO Auto-generated method stub
+		Bid responseBid = bidDao.getBid( projectId,  bidderId, bidId);
+		//bidTable
+		return responseBid;
 	}
 }

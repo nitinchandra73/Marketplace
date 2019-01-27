@@ -15,21 +15,14 @@ import com.zaxxer.hikari.HikariDataSource;
 
 @SpringBootApplication
 @ComponentScan(basePackages = {"com.intuit.cg"})
-public class BackendTechAssessmentApplication implements CommandLineRunner{
+public class BackendTechAssessmentApplication {
 	 @Autowired
 	    DataSource dataSource; 
-//	 @Autowired
-//	    private SessionFactory sessionFactory;
 	 @PersistenceContext
 	    private EntityManager em;
 
 	public static void main(String[] args) {
 		SpringApplication.run(BackendTechAssessmentApplication.class, args);
 	}
-	@Override
-    public void run(String... args) throws Exception {
-        System.out.println("DataSource = " + dataSource);
-       // System.out.println("sessionFactory "+sessionFactory);
-        System.out.println("em "+em);
-    }
+
 }

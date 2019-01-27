@@ -11,7 +11,8 @@ import javax.persistence.NamedQuery;
 
 import com.intuit.cg.backendtechassessment.controller.entity.Bid;
 @NamedQueries({
-	@NamedQuery(name="bidTable.getBidderIdForProjectId",query="select b from BidTable b where b.bidder= :bidderId and b.project= :projectId")
+	@NamedQuery(name="bidTable.getBidderIdForProjectId",query="select b from BidTable b where b.bidder= :bidderId and b.project= :projectId"),
+	@NamedQuery(name="bidTable.getBidForId",query="select b from BidTable b where b.id= :id ")
 })
 @Entity
 public class BidTable {

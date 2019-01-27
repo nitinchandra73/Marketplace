@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.intuit.cg.backendtechassessment.constants.MarketplaceConstants;
+import com.intuit.cg.backendtechassessment.controller.BidderRegistrationController;
 import com.intuit.cg.backendtechassessment.controller.entity.Bidder;
 import com.intuit.cg.backendtechassessment.controller.entity.Employer;
 import com.intuit.cg.backendtechassessment.controller.entity.Status;
@@ -18,11 +19,12 @@ import com.intuit.cg.backendtechassessment.service.EmployerService;
 import com.intuit.cg.backendtechassessment.serviceImpl.BidderServiceImpl;
 
 @RestController
-public class BidderRegistrationControllerImpl implements MarketplaceConstants{
+public class BidderRegistrationControllerImpl implements BidderRegistrationController,MarketplaceConstants{
 
 	@Autowired
 	BidderServiceImpl bidderService;
 	@RequestMapping(path=POST_BIDDER_PATH,method=RequestMethod.POST)
+	
 	public ResponseEntity<Object> addNewBidder(@RequestBody Bidder bidder) {
 		Bidder bidderResponse;
 		try {
@@ -38,6 +40,7 @@ public class BidderRegistrationControllerImpl implements MarketplaceConstants{
 	}
 	
 	@RequestMapping(path=GET_BIDDER_PATH,method=RequestMethod.GET)
+	
 	public ResponseEntity<Object> getBidder(@PathVariable(name=BIDDER_EIN) String bidderEin, @RequestBody Bidder bidder) {
 		Bidder bidderResponse;
 		try {

@@ -3,6 +3,9 @@ package com.intuit.cg.backendtechassessment.controller.entity;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
+import com.intuit.cg.backendtechassessment.dataaccess.entity.BidTable;
+import com.intuit.cg.backendtechassessment.dataaccess.entity.ProjectTable;
+
 public final class Bid {
 	int bidId;
 	@NotBlank
@@ -16,7 +19,19 @@ public final class Bid {
 	double currentBidAmount;
 	int projectId;
 	boolean bidLesserTillThresholdIfNotLeast;
-	
+	public Bid() {
+		
+	}
+	public Bid(BidTable bidTable,ProjectTable projectTable, int projectId, int bidderId) {
+		this.bidId=bidTable.getId();
+		this.employerId=projectTable.getEmployer().getId();
+		this.bidderId=bidderId;
+		this.projectTitle=projectTable.getName();
+		this.leastBidAmount=bidTable.getMinimumBidAmout();
+		this.currentBidAmount=bidTable.getBidAmount();
+		this.projectId=projectId;
+		
+	}
 	public boolean isBidLesserTillThresholdIfNotLeast() {
 		return bidLesserTillThresholdIfNotLeast;
 	}
