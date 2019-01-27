@@ -26,7 +26,7 @@ public class EmployerServiceImpl implements EmployerService{
 			
 				throw new UserException("Employer Id should not be provided for new employer", ErrorCodes.EMPLOYER_ID_SHOULDNT_BE_PROVIDED);
 			
-		}
+		} 
 		
 		return employerDao.addEmployer(employer);
 		
