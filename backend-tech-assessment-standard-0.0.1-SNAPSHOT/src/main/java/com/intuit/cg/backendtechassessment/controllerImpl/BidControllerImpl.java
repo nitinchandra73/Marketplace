@@ -1,5 +1,8 @@
 package com.intuit.cg.backendtechassessment.controllerImpl;
 
+import java.util.ArrayList;
+import java.util.Collection;
+
 import javax.servlet.http.HttpServletRequest;
 
 import org.slf4j.Logger;
@@ -29,7 +32,6 @@ public class BidControllerImpl implements BidController,MarketplaceConstants {
 	@Override
 	@RequestMapping(value=POST_BID_PATH, method=RequestMethod.POST)
 	public ResponseEntity<Object> newBid(@PathVariable(PROJECT_ID) int projectId, @PathVariable(BIDDER_ID)int bidderId,  @RequestBody Bid bid) {
-		
 		Bid responseBid=null;
 		try {
 			LOGGER.debug("requested to add bid for bidderId:"+bidderId+", projectId:"+projectId+", bid:"+bid.toString());

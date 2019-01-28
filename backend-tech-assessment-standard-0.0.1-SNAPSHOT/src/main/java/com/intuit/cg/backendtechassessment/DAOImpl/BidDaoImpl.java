@@ -113,7 +113,9 @@ public class BidDaoImpl implements BidDao{
 	public Bid placeBid(Bid bid) throws UserException {
 		BidderTable bidderTable=getBidderById(bid.getBidderId());
 		ProjectTable projectTable =getProjectById(bid.getProjectId()); 
+		projectTable.setLowestBidder(bidderTable);
 		BidTable bidTable = new BidTable(bid,bidderTable,projectTable);
+		projectTable.setLeastBid(bidTable);
 		LOGGER.info("persisting BidTable: "+bidTable.toString());
 		entityManager.persist(bidTable);
 		bid.setBidId(bidTable.getId());

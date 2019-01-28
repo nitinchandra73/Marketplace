@@ -36,11 +36,7 @@ public class BidTable {
 		
 	}
 	
-	@Override
-	public String toString() {
-		return "BidTable [id=" + id + ", bidAmount=" + bidAmount + ", minimumBidAmout=" + minimumBidAmout + ", project="
-				+ project + ", bidder=" + bidder + "]";
-	}
+
 	public BidderTable getBidder() {
 		return bidder;
 	}

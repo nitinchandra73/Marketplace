@@ -49,12 +49,6 @@ public class ProjectTable {
 		this.employer=employerTable;
 	}
 	
-	@Override
-	public String toString() {
-		return "ProjectTable [id=" + id + ", description=" + description + ", name=" + name + ", maximumBudget="
-				+ maximumBudget + ", lastDate=" + lastDate + ", isBidExpired=" + isBidExpired + ", employer=" + employer
-				+ ", lowestBidder=" + lowestBidder + ", bids=" + bids + ", leastBid=" + leastBid + "]";
-	}
 	public BidTable getLeastBid() {
 		return leastBid;
 	}
