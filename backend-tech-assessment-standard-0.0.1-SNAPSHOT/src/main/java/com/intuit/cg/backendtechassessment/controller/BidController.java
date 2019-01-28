@@ -12,5 +12,5 @@ public interface BidController {
 	public ResponseEntity<Object> newBid(int projectId, int bidderId, Bid bid);
 
 	public ResponseEntity<Object> getBid(int projectId, int bidderId, int bidId);
-	 static final Logger LOGGER = LoggerFactory.getLogger(BidControllerImpl.class);
+	static final Logger LOGGER = LoggerFactory.getLogger(BidControllerImpl.class);
 }
