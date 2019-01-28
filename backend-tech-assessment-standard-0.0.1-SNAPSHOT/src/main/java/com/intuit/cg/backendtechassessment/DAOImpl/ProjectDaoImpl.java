@@ -24,28 +24,31 @@ public class ProjectDaoImpl implements ProjectDao {
 	
 	@Override
 	public Project addProject(Project project, EmployerTable employerTable)  {
-		// TODO Auto-generated method stub
 		
 		ProjectTable projectTable = new ProjectTable(project,employerTable);
+		LOGGER.info("Persisting projectTable with data: "+projectTable.toString());
 		entityManager.persist(projectTable);
 		project.setId(projectTable.getId());
-		//entityManager.createNamedQuery("ProjectTable.insertNewProject").setParameter("name", project.getName()).setParameter("ein", project.getEin()).get;
+		LOGGER.info("Persisted project table and returning Project: "+project.toString());
 		return project;
 	}
 
 	@Override
-	public Project getProject(int employerId, Integer projectid) throws UserException {
-		// TODO Auto-generated method stub
-		List<ProjectTable> projectTables = entityManager.createNamedQuery("projectTable.SELECT_PROJECT_BY_ID", ProjectTable.class).setParameter("id", projectid).getResultList();
+	public Project getProject(int employerId, Integer projectId) throws UserException {
+		LOGGER.info("Queried project table for project by id: "+projectId);
+		List<ProjectTable> projectTables = entityManager.createNamedQuery("projectTable.SELECT_PROJECT_BY_ID", ProjectTable.class).setParameter("id", projectId).getResultList();
 		if(projectTables.size()>0) {
 			ProjectTable projectTable = projectTables.get(0);
 			if(projectTable.getEmployer().getId()==employerId) {
 				Project responseProject = new Project(projectTable);
+				LOGGER.info("Response project: "+responseProject.toString());
 				return responseProject;
 			}
-			throw new UserException("ProjectId: "+projectid+" dosent match EmployerId: "+employerId, ErrorCodes.MISSMATCH_EMPLOYER_ID_AND_PROJECT_ID);
+			LOGGER.error("ProjectId: "+projectId+" dosent match EmployerId: "+employerId+". With error code:"+ErrorCodes.MISSMATCH_EMPLOYER_ID_AND_PROJECT_ID);
+			throw new UserException("ProjectId: "+projectId+" dosent match EmployerId: "+employerId, ErrorCodes.MISSMATCH_EMPLOYER_ID_AND_PROJECT_ID);
 		}
-		throw new UserException("Project dosent exist for ProjectId: "+projectid, ErrorCodes.MISSING_PROJECT_FOR_ID);
+		LOGGER.error("Project dosent exist for ProjectId: "+projectId+". with error code: "+ErrorCodes.MISSING_PROJECT_FOR_ID);
+		throw new UserException("Project dosent exist for ProjectId: "+projectId, ErrorCodes.MISSING_PROJECT_FOR_ID);
 
 	}
 }

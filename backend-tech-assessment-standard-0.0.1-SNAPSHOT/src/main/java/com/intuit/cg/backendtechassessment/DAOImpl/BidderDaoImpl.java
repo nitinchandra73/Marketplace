@@ -5,6 +5,7 @@ import java.util.List;
 import javax.persistence.EntityManager;
 import javax.transaction.Transactional;
 
+import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
@@ -23,21 +24,23 @@ public class BidderDaoImpl implements BidderDao{
 	private EntityManager entityManager;
 	@Override
 	public Bidder addBidder(Bidder bidder) throws UserException {
-		// TODO Auto-generated method stub
 		String ein=bidder.getEin();
 		List<BidderTable> bidders = getBidderByEin(ein);
+		LOGGER.info("requested Bidder by providing the EIN:"+ein+" for bidder:"+bidder.toString());
 		if(bidders.size()>0) {
+			LOGGER.error("Bidder already exist with the EIN number: "+ein+" With error code:"+ErrorCodes.BIDDER_ALREADY_EXISTS+". Bidder Data:"+bidder.toString());
 			throw new UserException("Bidder already exist with the EIN number: "+ein, ErrorCodes.BIDDER_ALREADY_EXISTS);
 		}
 		BidderTable bidderTable = new BidderTable(bidder);
 		entityManager.persist(bidderTable);
 		bidder.setId(bidderTable.getId());
-		//entityManager.createNamedQuery("BidderTable.insertNewBidder").setParameter("name", bidder.getName()).setParameter("ein", bidder.getEin()).get;
+		LOGGER.info("Persisted bidder and associated the bidder id to bidder: "+bidder.toString());
 		return bidder;
 	}
 	@Override
 	public List<BidderTable> getBidderByEin(String ein){
 		List<BidderTable> bidders = entityManager.createNamedQuery("BidderTable.listBidderByEin", BidderTable.class).setParameter("ein", ein).getResultList();
+		LOGGER.info("Queried database for Bidder with EIN: "+ein);
 		return bidders;
 	}
 }

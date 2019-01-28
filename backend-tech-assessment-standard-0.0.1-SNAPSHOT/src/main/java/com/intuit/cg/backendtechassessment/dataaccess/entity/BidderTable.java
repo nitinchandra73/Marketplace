@@ -22,7 +22,8 @@ public class BidderTable {
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	public int id;
-	
+	@OneToMany
+	List<BidTable> bids;
 	public BidderTable() {
 		
 	}
@@ -31,9 +32,12 @@ public class BidderTable {
 		this.ein=bidder.getEin();
 	}
 	
-	@OneToMany
-	List<BidTable> bids;
 	
+	
+	@Override
+	public String toString() {
+		return "BidderTable [name=" + name + ", ein=" + ein + ", id=" + id + ", bids=" + bids + "]";
+	}
 	public List<BidTable> getBids() {
 		return bids;
 	}

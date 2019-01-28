@@ -9,6 +9,10 @@ public class Employer {
 	@NotBlank
 	String ein;
 	
+	@Override
+	public String toString() {
+		return "Employer [id=" + id + ", name=" + name + ", ein=" + ein + "]";
+	}
 	public String getEin() {
 		return ein;
 	}

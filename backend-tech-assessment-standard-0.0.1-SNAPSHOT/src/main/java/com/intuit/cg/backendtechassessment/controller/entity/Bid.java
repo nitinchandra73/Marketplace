@@ -32,6 +32,13 @@ public final class Bid {
 		this.projectId=projectId;
 		
 	}
+	@Override
+	public String toString() {
+		return "Bid [bidId=" + bidId + ", employerId=" + employerId + ", bidderId=" + bidderId + ", projectTitle="
+				+ projectTitle + ", leastBidAmount=" + leastBidAmount + ", currentBidAmount=" + currentBidAmount
+				+ ", projectId=" + projectId + ", bidLesserTillThresholdIfNotLeast=" + bidLesserTillThresholdIfNotLeast
+				+ "]";
+	}
 	public boolean isBidLesserTillThresholdIfNotLeast() {
 		return bidLesserTillThresholdIfNotLeast;
 	}

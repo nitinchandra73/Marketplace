@@ -8,6 +8,11 @@ public class Bidder {
 	String name;
 	@NotBlank
 	String ein;
+	
+	@Override
+	public String toString() {
+		return "Bidder [id=" + id + ", name=" + name + ", ein=" + ein + "]";
+	}
 	public Integer getId() {
 		return id;
 	}

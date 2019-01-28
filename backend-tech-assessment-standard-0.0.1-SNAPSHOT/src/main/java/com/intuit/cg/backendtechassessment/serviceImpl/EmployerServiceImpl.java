@@ -23,11 +23,11 @@ public class EmployerServiceImpl implements EmployerService{
 	public Employer addEmployer(Employer employer) throws UserException {
 		boolean isEmployerIdSpecified=employer.getId()!=null;
 		if(isEmployerIdSpecified) {
-			
-				throw new UserException("Employer Id should not be provided for new employer", ErrorCodes.EMPLOYER_ID_SHOULDNT_BE_PROVIDED);
+			LOGGER.error("employer id is not specified for "+employer.toString()+" with error code:"+ErrorCodes.EMPLOYER_ID_SHOULDNT_BE_PROVIDED);
+			throw new UserException("Employer Id should not be provided for new employer", ErrorCodes.EMPLOYER_ID_SHOULDNT_BE_PROVIDED);
 			
 		} 
-		
+		LOGGER.info("Calling employer service to add new employer "+employer.toString());
 		return employerDao.addEmployer(employer);
 		
 	}
@@ -35,15 +35,19 @@ public class EmployerServiceImpl implements EmployerService{
 	@Override
 	public Employer getEmployer(String employerEin,Employer employer) throws UserException {
 		List<EmployerTable> employertables=employerDao.getEmployerByEin(employerEin);
+		LOGGER.info("Checked employer info for Ein:"+employerEin+" specified. with response "+employertables.toString());
 		if(employertables.size()>0) {
 			EmployerTable employerTable=employertables.get(0);
 			boolean checkEmployerIsValid=  employer.getName().equalsIgnoreCase(employerTable.getName());
 			if (checkEmployerIsValid){
 				employer.setId((Integer)employerTable.getId());
+				LOGGER.info("employer is valid "+ employer.toString());
 				return employer;
 			}
+			LOGGER.error("employer with Ein: "+employerEin+" is a mismatch with provided employer name and Id. with error code: "+ErrorCodes.EIN_NAME_ID_MISMATCH);
 			throw new UserException("Employer with Ein: "+employerEin+" is a mismatch with provided Employer name and Id.",ErrorCodes.EIN_NAME_ID_MISMATCH);
 		}
+		LOGGER.error("employer with Ein: "+employerEin+" doesnt exist. Error code:"+ErrorCodes.EMPLOYER_DOESNT_EXIST);
 		throw new UserException("Employer with Ein: "+employerEin+" doesnt exist",ErrorCodes.EMPLOYER_DOESNT_EXIST);	
 	}
 

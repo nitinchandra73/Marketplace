@@ -26,16 +26,17 @@ public class EmployerRegistrationControllerImpl implements EmployerRegistrationC
 	@RequestMapping(path=POST_EMPLOYER_PATH,method=RequestMethod.POST)
 	@Override
 	public ResponseEntity<Object> addNewEmployer(@RequestBody Employer employer) {
-		//System.out.println("Nitin im in controller");
 		Employer employerResponse;
 			try {
+				LOGGER.debug("Calling employer service to add new employer with data: "+employer.toString());
 				 employerResponse=employerService.addEmployer(employer);
 			} catch (UserException e) {
 				Status status = new Status();
 				status.setStatusMessage(e.toString());
+				LOGGER.error( e.toString()+" "+employer.toString() +" "+HttpStatus.BAD_REQUEST);
 				return new ResponseEntity<Object>(status, HttpStatus.BAD_REQUEST);
 			}
-		
+			LOGGER.info("Successfuly added new employer: "+employer.toString());
 			return new ResponseEntity<Object>(employerResponse, HttpStatus.OK);	
 	}
 	@RequestMapping(path=GET_EMPLOYER_PATH,method=RequestMethod.GET)
@@ -43,11 +44,14 @@ public class EmployerRegistrationControllerImpl implements EmployerRegistrationC
 	public ResponseEntity<Object> getEmployer(@PathVariable(name=EMPLOYER_EIN) String employerEin, @RequestBody Employer employer) {
 		Employer employerResponse;
 		try {
+			LOGGER.debug("Calling employer service with employer data to get employer: "+employer.toString());
 			employerResponse=employerService.getEmployer(employerEin,employer);
+			LOGGER.info("Successfuly returning data for employer "+employer.toString());
 			return new ResponseEntity<Object>(employerResponse, HttpStatus.OK);
 		} catch (UserException e) {
 			Status status = new Status();
 			status.setStatusMessage(e.toString());
+			LOGGER.error( e.toString()+" "+employer.toString() +"HTTP status: "+HttpStatus.BAD_REQUEST);
 			return new ResponseEntity<Object>(status, HttpStatus.BAD_REQUEST);
 		}
 		

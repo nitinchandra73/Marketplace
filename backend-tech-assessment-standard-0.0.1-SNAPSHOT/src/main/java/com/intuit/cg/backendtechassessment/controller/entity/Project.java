@@ -34,6 +34,13 @@ public class Project {
 		this.isBidActive=(!projectTable.isBidExpired);
 		
 	}
+	
+	@Override
+	public String toString() {
+		return "Project [id=" + id + ", employerId=" + employerId + ", projectName=" + projectName + ", description="
+				+ description + ", maximumBudget=" + maximumBudget + ", lastDate=" + lastDate + ", isBidActive="
+				+ isBidActive + "]";
+	}
 	public Integer getId() {
 		return id;
 	}

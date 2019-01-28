@@ -18,25 +18,18 @@ import com.intuit.cg.backendtechassessment.controller.entity.Employer;
 
 @Entity
 @Table(name="EmployerTable")
-//@NamedQuery(query="", name = "")
-
 @NamedQueries({
 	@NamedQuery(name="EmployerTable.LIST_ALL_EMPLOYERS", query="from EmployerTable"),
 	@NamedQuery(name="EmployerTable.listEmployerByEin",query="select e from EmployerTable e where e.ein= :ein"),
 	@NamedQuery(name="EmployerTable.listEmployerById",query="select e from EmployerTable e where e.id= :id")
-	
-	//@NamedQuery(name="EmployerTable.insertNewEmployer",query="insert into EmployerTable e values e.name=:name e.ein= :ein ")
 	})
 public class EmployerTable {
 
 	String name;
-	//@UniqueElements
 	String ein;
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	@Id
 	int id;
-//	String projectName;
-//	String projectDescription;
 	@OneToMany
 	List<ProjectTable> projects;
 	
@@ -44,6 +37,11 @@ public class EmployerTable {
 	public EmployerTable(Employer employer) {
 		this.name=employer.getName();
 		this.ein=employer.getEin();
+	}
+	
+	@Override
+	public String toString() {
+		return "EmployerTable [name=" + name + ", ein=" + ein + ", id=" + id + ", projects=" + projects + "]";
 	}
 	public String getEin() {
 		return ein;

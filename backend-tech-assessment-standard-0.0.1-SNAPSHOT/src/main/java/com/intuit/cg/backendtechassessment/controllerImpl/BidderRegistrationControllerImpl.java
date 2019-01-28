@@ -28,13 +28,15 @@ public class BidderRegistrationControllerImpl implements BidderRegistrationContr
 	public ResponseEntity<Object> addNewBidder(@RequestBody Bidder bidder) {
 		Bidder bidderResponse;
 		try {
+			LOGGER.debug("Calling bidder service with bidder data to add new bidder: "+bidder.toString());
 			 bidderResponse=bidderService.addBidder(bidder);
 		} catch (UserException e) {
 			Status status = new Status();
 			status.setStatusMessage(e.toString());
+			LOGGER.error( e.toString()+" "+bidder.toString() +" "+HttpStatus.BAD_REQUEST);
 			return new ResponseEntity<Object>(status, HttpStatus.BAD_REQUEST);
 		}
-	
+		LOGGER.info("Successfuly added new Bidder "+bidder.toString());
 		return new ResponseEntity<Object>(bidderResponse, HttpStatus.OK);	
 		
 	}
@@ -44,11 +46,14 @@ public class BidderRegistrationControllerImpl implements BidderRegistrationContr
 	public ResponseEntity<Object> getBidder(@PathVariable(name=BIDDER_EIN) String bidderEin, @RequestBody Bidder bidder) {
 		Bidder bidderResponse;
 		try {
+			LOGGER.debug("Calling bidder service with bidder data to get bidder: "+bidder.toString());
 			bidderResponse=bidderService.getBidder(bidderEin,bidder);
+			LOGGER.info("Successfuly returning data for Bidder "+bidder.toString());
 			return new ResponseEntity<Object>(bidderResponse, HttpStatus.OK);
 		} catch (UserException e) {
 			Status status = new Status();
 			status.setStatusMessage(e.toString());
+			LOGGER.error( e.toString()+" "+bidder.toString() +"HTTP status: "+HttpStatus.BAD_REQUEST);
 			return new ResponseEntity<Object>(status, HttpStatus.BAD_REQUEST);
 		}
 		

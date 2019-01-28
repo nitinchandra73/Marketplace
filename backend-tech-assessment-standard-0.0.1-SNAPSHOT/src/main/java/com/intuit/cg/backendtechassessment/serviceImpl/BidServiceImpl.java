@@ -15,33 +15,30 @@ import com.intuit.cg.backendtechassessment.exception.UserException;
 import com.intuit.cg.backendtechassessment.service.BidService;
 @Service
 public class BidServiceImpl implements BidService {
-	private static final Logger LOGGER = LoggerFactory.getLogger(BidServiceImpl.class);
 	@Autowired
 	BidDao bidDao;
 	@Override
 	public Bid addBid(Bid bid) throws UserException {
+		LOGGER.info("Checking if bidder exist for Bid: "+bid.toString());
 		boolean isBidderExist= bidDao.isBidderExist(bid);
 		if(isBidderExist) {
 			boolean bidderBidAlreadyExist=bidDao.bidderBidAlreadyExist(bid);
 			if(bidderBidAlreadyExist) {
+				LOGGER.error("Bid for Bidder exist. Bid: "+bid.toString()+" with error code: "+ErrorCodes.BID_FOR_BIDDER_EXIST);
 				throw new UserException("Bid for Bidder exist", ErrorCodes.BID_FOR_BIDDER_EXIST);
 			}
 		}
 		bidDao.isBidValid(bid);
-	//	bidDao.isBiddingActive();
 		
-		//bidDao.isTheBidLeastCoated();
 		Bid responseBid=bidDao.placeBid(bid);
 		
-	
+		
 		return responseBid;	
 
 	}
 	@Override
 	public Bid getBid(int projectId, int bidderId, int bidId) throws UserException {
-		// TODO Auto-generated method stub
 		Bid responseBid = bidDao.getBid( projectId,  bidderId, bidId);
-		//bidTable
 		return responseBid;
 	}
 }

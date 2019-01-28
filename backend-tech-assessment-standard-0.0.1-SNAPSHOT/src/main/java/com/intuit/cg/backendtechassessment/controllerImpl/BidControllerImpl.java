@@ -26,20 +26,20 @@ public class BidControllerImpl implements BidController,MarketplaceConstants {
 	
 	@Autowired
 	BidService bidservice;
-	private static final Logger LOGGER = LoggerFactory.getLogger(BidControllerImpl.class);
 	@Override
 	@RequestMapping(value=POST_BID_PATH, method=RequestMethod.POST)
 	public ResponseEntity<Object> newBid(@PathVariable(PROJECT_ID) int projectId, @PathVariable(BIDDER_ID)int bidderId,  @RequestBody Bid bid) {
-		// TODO Auto-generated method stub
 		
 		Bid responseBid=null;
 		try {
+			LOGGER.debug("requested to add bid for bidderId:"+bidderId+", projectId:"+projectId+", bid:"+bid.toString());
 			responseBid = bidservice.addBid(bid);
+			LOGGER.info("successfully added bid for bidderId:"+bidderId+", projectId:"+projectId+", responseBid:"+responseBid.toString());
 			return new ResponseEntity<Object>(responseBid, HttpStatus.OK);
 		} catch (UserException e) {
 			Status status = new Status();
 			status.setStatusMessage(e.toString());
-			LOGGER.error("hi nitin");
+			LOGGER.error(e.toString()+" with HTTP status:"+ HttpStatus.BAD_REQUEST);
 			return new ResponseEntity<Object>(status, HttpStatus.BAD_REQUEST);
 		}
 		
@@ -49,13 +49,14 @@ public class BidControllerImpl implements BidController,MarketplaceConstants {
 	public ResponseEntity<Object> getBid(@PathVariable(PROJECT_ID) int projectId, @PathVariable(BIDDER_ID)int bidderId,@PathVariable(name= BID_ID) int bidId ) {
 		Bid responseBid;
 		try {
-			System.out.println("Hey Nitin");
+			LOGGER.debug("requested to get bid for bidderId:"+bidderId+", projectId:"+projectId);
 			responseBid = bidservice.getBid(projectId,bidderId,bidId);
+			LOGGER.info("returning bid for bidderId:"+bidderId+", projectId:"+projectId+", responseBid:"+responseBid.toString());
 			return new ResponseEntity<Object>(responseBid,HttpStatus.OK);
 		} catch (UserException e) {
 			Status status = new Status();
 			status.setStatusMessage(e.toString());
-			//LOGGER.error("hi nitin");
+			LOGGER.error(e.toString()+" with HTTP status:"+ HttpStatus.BAD_REQUEST);
 			return new ResponseEntity<Object>(status, HttpStatus.BAD_REQUEST);
 		}
 	}

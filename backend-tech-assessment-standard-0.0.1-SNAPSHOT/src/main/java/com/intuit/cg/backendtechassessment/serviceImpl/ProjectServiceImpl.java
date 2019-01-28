@@ -22,32 +22,37 @@ public class ProjectServiceImpl implements ProjectService{
 	ProjectDao projectDao;
 	@Override
 	public Project addProject(int employerId, String ein,Project project) throws UserException {
-		// TODO Auto-generated method stub
 		EmployerTable employerTable=getEmployer(employerId,ein);
+		LOGGER.debug("Adding project for employerId:"+employerId+" ,EIN:"+ein+", project: "+project.toString()+", employerTable: "+employerTable.toString());
 		projectDao.addProject(project, employerTable);
+		LOGGER.info("Added project with Project:"+project.toString()+" EmployerTable: "+employerTable.toString());
 		return project;
 	}
 	
 	EmployerTable getEmployer(int employerId,String ein) throws UserException {
 		List<EmployerTable> employers = employerDao.getEmployerById(employerId);
+		LOGGER.info("Requested employer for Id:"+employerId);
 		EmployerTable employerFromSource;
 		boolean isValid;
 		if(employers.size()==0) {
+			LOGGER.error("Employer doesnt exist with the employerId number: "+employerId+". with erro code: "+ErrorCodes.EMPLOYER_DOESNT_EXIST);
 			throw new UserException("Employer doesnt exist with the employerId number: "+employerId, ErrorCodes.EMPLOYER_DOESNT_EXIST);
 		}
 		employerFromSource= employers.get(0);
 		isValid=employerFromSource.getEin().equalsIgnoreCase(ein) ;
 		if(!isValid) {
+			LOGGER.error("EmployerId "+employerId+" and Employer EIN: "+ein+" dosent match."+" With error code: "+ ErrorCodes.EMPLOYER_ID_AND_EIN_MISMATCH);
 			throw new UserException("EmployerId "+employerId+" and Employer EIN: "+ein+" dosent match.", ErrorCodes.EMPLOYER_ID_AND_EIN_MISMATCH);
 			
 		}
+		LOGGER.info("Returning employer for EmployerId:"+ employerId+" ,EIN:"+ein+", employerFromSource:"+employerFromSource.toString());
 		return employerFromSource;
 	}
 
 	@Override
-	public Project getProject(int employerId, Integer projectid) throws UserException {
-		// TODO Auto-generated method stub
-		Project project = projectDao.getProject(employerId, projectid);
+	public Project getProject(int employerId, Integer projectId) throws UserException {
+		LOGGER.info("Requested project for employerId:"+employerId+", ProjectId: "+projectId);
+		Project project = projectDao.getProject(employerId, projectId);
 		return project;
 	}
 
