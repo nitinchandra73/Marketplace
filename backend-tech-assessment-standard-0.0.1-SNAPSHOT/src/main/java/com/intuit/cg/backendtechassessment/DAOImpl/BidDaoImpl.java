@@ -81,7 +81,6 @@ public class BidDaoImpl implements BidDao{
 			LOGGER.info("Valid bid with Bid:"+bid.toString());
 			return true;
 		}
-		
 	}
 	@Override
 	public boolean isBidderExist(Bid bid) throws UserException {
